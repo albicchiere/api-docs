@@ -1,0 +1,5443 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Albi Backend
+  description: Albicchiere backend docs
+  license:
+    name: MIT
+  contact:
+    name: API Support
+    email: support@albicchiere.com
+servers:
+  - url: 'https://api.albitest.ml'
+paths:
+  /companies:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getAllCompanies
+      description: List all companies
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  companies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Company'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: createCompany
+      description: Create a new company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - type
+                - fullName
+                - name
+                - phone
+                - vatNumber
+                - email
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - winery
+                    - professional
+                    - reseller
+                fullName:
+                  type: string
+                phone:
+                  type: string
+                vatNumber:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                website:
+                  type: string
+                  format: uri
+                instagram:
+                  type: string
+                  format: uri
+                facebook:
+                  type: string
+                  format: uri
+                twitter:
+                  type: string
+                  format: uri
+                admins:
+                  type: array
+                  items:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+                addresses:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - country
+                      - city
+                      - province
+                      - postalCode
+                      - address
+                    properties:
+                      name:
+                        type: string
+                      isLocationEnabled:
+                        type: boolean
+                      country:
+                        type: string
+                      city:
+                        type: string
+                      province:
+                        type: string
+                      postalCode:
+                        type: string
+                      address:
+                        type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    $ref: '#/components/schemas/Company'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getCompany
+      description: Get details about company
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    $ref: '#/components/schemas/Company'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: editCompany
+      description: Edit info about company
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                website:
+                  type: string
+                  format: uri
+                instagram:
+                  type: string
+                  format: uri
+                facebook:
+                  type: string
+                  format: uri
+                twitter:
+                  type: string
+                  format: uri
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    $ref: '#/components/schemas/Company'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/change_status':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: changeStatus
+      description: Change status of company
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - State changed
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/addresses':
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getAllCompanyAddresses
+      description: List all addresses of a company
+      parameters:
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  addresses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Address'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: createCompanyAddress
+      description: Create a new company address
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - country
+                - city
+                - province
+                - postalCode
+                - address
+              properties:
+                name:
+                  type: string
+                isLocationEnabled:
+                  type: boolean
+                country:
+                  type: string
+                city:
+                  type: string
+                province:
+                  type: string
+                postalCode:
+                  type: string
+                address:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    $ref: '#/components/schemas/Address'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/addresses/{addressId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getCompanyAddress
+      description: Get details about address
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: addressId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    $ref: '#/components/schemas/Address'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: editCompanyAddress
+      description: Edit info about company address
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: addressId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                isLocationEnabled:
+                  type: boolean
+                country:
+                  type: string
+                city:
+                  type: string
+                province:
+                  type: string
+                postalCode:
+                  type: string
+                address:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    $ref: '#/components/schemas/Address'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: deleteCompanyAddress
+      description: Delete Company Address
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: addressId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Address deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/user_accesses':
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getCompanyUserAccesses
+      description: List all user accesses on a company
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_accesses:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserCompanyAccess'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: createCompanyUserAccess
+      description: Add admin for company
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - location
+                  - role
+                properties:
+                  location:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+                  role:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_access:
+                    $ref: '#/components/schemas/UserCompanyAccess'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/user_accesses/{accessId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getCompanyUserAccess
+      description: Get details user access
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: accessId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_access:
+                    $ref: '#/components/schemas/UserCompanyAccess'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: editCompanyUserAccess
+      description: Edit user access
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: accessId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                location:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_access:
+                    $ref: '#/components/schemas/UserCompanyAccess'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: deleteCompanyUserAccess
+      description: Delete user access
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: accessId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - User Access deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getAllUsers
+      description: List all users
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          name: Cognito Unauthorized
+          description: Endpont reachable only after authentication with cognito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          name: ApiForbiddenError
+          description: Internal scope auth error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_name:
+                    type: string
+                    enum:
+                      - ForbiddenError
+                  error_message:
+                    type: string
+        '500':
+          name: InternalError
+          description: Generic internal error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_name:
+                    type: string
+                    enum:
+                      - InternalError
+                  error_message:
+                    type: string
+  /users/me:
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUserMe
+      description: Get details about my user
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: updateUserMe
+      description: Edit info about my user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                lastName:
+                  type: string
+                gender:
+                  type: string
+                  enum:
+                    - male
+                    - female
+                birthday:
+                  type: string
+                  format: date
+                birthplace:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users/me/locations:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUserCompanyAccesss
+      description: List all user locations
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserCompanyAccess'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users/me/image:
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUserImageMe
+      description: Get image of my user
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: updateUserImageMe
+      description: Edit image of my user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              format: byte
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Image created
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users/me/add_parental_control_on_vintage:
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: addParentalControlOnVintage
+      description: Enable parental control for a wine vintage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wine:
+                  type:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                  - type: object
+                    properties:
+                      location:
+                        $ref: '#/components/schemas/UserCompanyAccess'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/me/remove_parental_control_on_vintage/{vintageId}':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: removeParentalControlOnVintage
+      description: Disable parental control for a wine vintage
+      parameters:
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Removed parental control from user
+                      - Removed parental control from location
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/{userId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUser
+      description: Get details about my user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          name: NotFoundError
+          description: Element with requested uuid not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_name:
+                    type: string
+                    enum:
+                      - NotFoundError
+                  error_message:
+                    type: string
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /wine/wine_container_models:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - wine_container_models
+      operationId: getAllWineContainerModels
+      description: List all wine container models
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  models:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WineContainer'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - wine_container_models
+      operationId: createWineContainerModel
+      description: Create a wine container model
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - type
+                - capacity
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - smart_bag
+                    - bottle
+                capacity:
+                  type: integer
+                  minimum: 1
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  model:
+                    $ref: '#/components/schemas/WineContainer'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wine_container_models/{id}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - wine_container_models
+      operationId: getWineContainerModel
+      description: Get details about wine container model
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  model:
+                    $ref: '#/components/schemas/WineContainer'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - wine_container_models
+      operationId: editWineContainerModel
+      description: Update info about user vintage
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capacity:
+                  type: integer
+                  minimum: 1
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  model:
+                    $ref: '#/components/schemas/WineContainer'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - wine_container_models
+      operationId: deleteWineContainerModel
+      description: Delete Wine Container Model
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Model deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /wine/user_vintages:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - user_vintages
+      operationId: getAllUserVintages
+      description: List all user vintages of requesting user
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_vintages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserVintage'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/user_vintages/{userVintageId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - user_vintages
+      operationId: getUserVintage
+      description: Get details about user vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: userVintageId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_vintage:
+                    $ref: '#/components/schemas/UserVintage'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - user_vintages
+      operationId: updateUserVintage
+      description: Update info about user vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: userVintageId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                winery:
+                  type: string
+                year:
+                  type: string
+                wineColor:
+                  type: string
+                  enum:
+                    - red
+                    - white
+                    - rose
+                temperature:
+                  type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_vintage:
+                    $ref: '#/components/schemas/UserVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - user_vintages
+      operationId: deleteUserVintage
+      description: Delete User vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: userVintageId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - User vintage deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /wine/wines:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getAllWines
+      description: List all wines
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wines:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Wine'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: createWine
+      description: Create a wine
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - wineryId
+                - description
+                - wineColor
+              properties:
+                wineryId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                description:
+                  type: array
+                  minimum: 0
+                  items:
+                    type: object
+                    properties:
+                      locale:
+                        type: string
+                      description:
+                        type: string
+                wineColor:
+                  type: string
+                  enum:
+                    - red
+                    - white
+                    - rose
+                wineTypes:
+                  type: array
+                  items:
+                    type: string
+                grapes:
+                  type: array
+                  items:
+                    type: string
+                moods:
+                  type: array
+                  items:
+                    type: string
+                pairings:
+                  type: array
+                  items:
+                    type: string
+                allergens:
+                  type: array
+                  items:
+                    type: string
+                philosophy:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wine:
+                    $ref: '#/components/schemas/Wine'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getWine
+      description: Get details about wine
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wine:
+                    $ref: '#/components/schemas/Wine'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: editWine
+      description: Update info about wine
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capacity:
+                  type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wine:
+                    $ref: '#/components/schemas/Wine'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          name: Cognito Unauthorized
+          description: Endpont reachable only after authentication with cognito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: deleteWine
+      description: Delete Wine
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Wine deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages':
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getAllWineVintages
+      description: List all vintages of a wine
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WineVintage'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: createWineVintage
+      description: Create a wine vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - country
+                - city
+                - province
+                - postalCode
+                - address
+              properties:
+                name:
+                  type: string
+                isLocationEnabled:
+                  type: boolean
+                country:
+                  type: string
+                city:
+                  type: string
+                province:
+                  type: string
+                postalCode:
+                  type: string
+                address:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintage:
+                    $ref: '#/components/schemas/WineVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getWineVintage
+      description: Get details about wine vintage
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintage:
+                    $ref: '#/components/schemas/WineVintage'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: editWineVintage
+      description: Edit info about wine vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                temperature:
+                  type: number
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintage:
+                    $ref: '#/components/schemas/WineVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: deleteWineVintage
+      description: Delete wine vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Vintage deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/label':
+    get:
+      summary: Get Image
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getWineLabel
+      description: Get vintage image
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wines:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Wine'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create Image
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: createWineLabel
+      description: Create a vintage wine image
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wine:
+                    $ref: '#/components/schemas/Wine'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/reviews':
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getWineVintageReviews
+      description: List all vintages review
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: continuationToken
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WineVintageReview'
+                  continuationToken:
+                    type: string
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: createWineVintageReview
+      description: Create a wine vintage review
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - text
+                - stars
+              properties:
+                text:
+                  type: string
+                stars:
+                  type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    $ref: '#/components/schemas/WineVintageReview'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/review':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getWineVintageReview
+      description: Get vintage review
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintage:
+                    $ref: '#/components/schemas/WineVintageReview'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /cantina/smart_bags:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: getAllUserSmartBags
+      description: List all smart bags
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bags:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SmartBag'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: createSmartBag
+      description: Create a smart bag
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - serial
+                - expiryDate
+              properties:
+                model:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                serial:
+                  type: string
+                expiryDate:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{smartBagId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: getUserSmartBag
+      description: Detail a smart bag
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: smartBagId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+        - ApiKeyAuth: []
+      tags:
+        - smart_bags
+      operationId: deleteUserSmartBag
+      description: Delete a smart bag
+      parameters:
+        - in: path
+          name: smartBagId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Smart Bag deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/transfer_ownership':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: transferSmartBagOwnership
+      description: transferSmartBagOwnership
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: serial
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/fill_smart_bag':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: fillSmartBag
+      description: fillSmartBag
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: serial
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - vintage
+              properties:
+                vintage:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/refill_smart_bag':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: refillSmartBag
+      description: refillSmartBag
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: serial
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - vintage
+              properties:
+                vintage:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /cantina/bottles:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - bottles
+      operationId: getAllUserBottles
+      description: List all bottles
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bottles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Bottle'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - bottles
+      operationId: createUserBottle
+      description: Create a bottle
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  required:
+                    - model
+                    - vintageId
+                  properties:
+                    model:
+                      type: string
+                      pattern: '[a-fA-F0-9]{24}'
+                    vintageId:
+                      type: string
+                      pattern: '[a-fA-F0-9]{24}'
+                - type: object
+                  required:
+                    - model
+                    - userVintage
+                  properties:
+                    model:
+                      type: string
+                      pattern: '[a-fA-F0-9]{24}'
+                    userVintage:
+                      type: object
+                      required:
+                        - name
+                        - winery
+                        - year
+                        - wineColor
+                        - temperature
+                      properties:
+                        name:
+                          type: string
+                        winery:
+                          type: string
+                        year:
+                          type: string
+                        wineColor:
+                          type: string
+                          enum:
+                            - red
+                            - white
+                            - rose
+                        temperature:
+                          type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bottle:
+                    $ref: '#/components/schemas/Bottle'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/bottles/{bottleId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - bottles
+      operationId: getUserBottle
+      description: Detail a bottle
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: bottleId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bottle:
+                    $ref: '#/components/schemas/Bottle'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - bottles
+      operationId: deleteUserBottle
+      description: Delete a bottle
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: bottleId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Bottle deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/bottles/{bottleId}/turn_into_bag':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - bottles
+      operationId: turnBottleIntoBag
+      description: turnBottleIntoBag
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: bottleId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Successfully trasformed into bags
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /cantina/owner_preferences:
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getOwnerPreferences
+      description: Detail owner preferences
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preferences:
+                    $ref: '#/paths/~1cantina~1owner_preferences/put/requestBody/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    put:
+      summary: Update
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: putOwnerPreferences
+      description: Update owner preferences
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - vintages
+              properties:
+                vintages:
+                  type: object
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preferences:
+                    $ref: '#/paths/~1cantina~1owner_preferences/put/requestBody/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /dispenser/dispensers:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: getAllDispensers
+      description: List all dispensers
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dispensers:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Dispenser'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: createDispenser
+      description: Create a new dispensers
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - model
+                - firmware
+                - serial
+              properties:
+                model:
+                  type: string
+                  enum:
+                    - home
+                    - pro
+                firmware:
+                  type: string
+                serial:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dispenser:
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: getDispenser
+      description: Get details about dispenser
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dispenser:
+                    $ref: '#/components/schemas/Dispenser'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: updateDispenser
+      description: Edit info about dispenser
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                chassis:
+                  type: object
+                  properties:
+                    chassis:
+                      type: string
+                      pattern: '[a-fA-F0-9]{24}'
+                    slot:
+                      type: number
+                locationId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                roomId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dispenser:
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: deleteDispenser
+      description: Delete dispenser
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Dispenser deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/activate':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: activateDispenser
+      description: Activate a dispensers
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - wifiName
+              properties:
+                name:
+                  type: string
+                chassis:
+                  type: object
+                  properties:
+                    chassis:
+                      type: string
+                      pattern: '[a-fA-F0-9]{24}'
+                    slot:
+                      type: number
+                locationId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                roomId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                wifiName:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dispenser:
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/pour_wine':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: pourWine
+      description: Command for dispenser pouring
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  required: true
+                  type: string
+                  enum:
+                    - drink
+                    - taste
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/set_cooling_mode':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: setCoolingMode
+      description: Set dispenser's cooling mode
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mode:
+                  required: true
+                  type: string
+                  enum:
+                    - eco
+                    - boost
+                    - silent
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/set_schedule':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: setSchedule
+      description: Scheduling the dispenser temperature
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scheduleTime:
+                  required: true
+                  type: string
+                  format: date-time
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/remove_schedule':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: removeSchedule
+      description: Remove dispenser schedule
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/start_vacuum_bag':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: startVacuumBag
+      description: Command for starting the vacuum function
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/set_serving_temperature':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: setServingTemperature
+      description: Set the dispenser serving temperature
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                temperature:
+                  required: true
+                  type: number
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/toggle_parental_control':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: toggleDispenserParentalControl
+      description: Toggle dispenser parental control
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Parental control enabled
+                      - Parental control disabled
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /dispenser/chassises:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - chassises
+      operationId: getAllChassis
+      description: List all chassises
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chassises:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Chassis'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - chassises
+      operationId: createChassis
+      description: Create a new chassis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - totalSlots
+                - locationId
+                - roomId
+              properties:
+                name:
+                  type: string
+                totalSlots:
+                  type: number
+                locationId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                roomId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chassis:
+                    $ref: '#/components/schemas/Chassis'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/chassises/{dispenserId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - chassises
+      operationId: getChassis
+      description: Get details about chassis
+      parameters:
+        - in: path
+          name: chassisId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chassis:
+                    $ref: '#/components/schemas/Chassis'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - chassises
+      operationId: deleteChassis
+      description: Delete chassis
+      parameters:
+        - in: path
+          name: chassisId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Chassis deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /dispenser/jobs:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_jobs
+      operationId: getAllJobs
+      description: List all jobs
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Job'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/jobs/{jobId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_jobs
+      operationId: getJob
+      description: Get details about job
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job:
+                    $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /dispenser/jobs/executed:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_jobs
+      operationId: getAllExecutedJobs
+      description: List all executed jobs
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ExecutedJob'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser//jobs/executed/{id}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_jobs
+      operationId: getExecutedJob
+      description: Get details about executed job
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job:
+                    $ref: '#/components/schemas/ExecutedJob'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /roles:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: getAllRoles
+      description: List all roles
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Role'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: createRole
+      description: Create a role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - permissions
+              properties:
+                name:
+                  type: string
+                permissions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - blockId
+                      - createPermission
+                      - readPermission
+                      - updatePermission
+                      - deletePermission
+                    properties:
+                      id:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      createPermission:
+                        type: boolean
+                      readPermission:
+                        type: boolean
+                      updatePermission:
+                        type: boolean
+                      deletePermission:
+                        type: boolean
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    $ref: '#/components/schemas/Role'
+        '400':
+          name: BadRequestError
+          description: Error on request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_name:
+                    type: string
+                    enum:
+                      - BadRequestError
+                  error_message:
+                    type: string
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/roles/{roleId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: getRoleById
+      description: Get details about role
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    $ref: '#/components/schemas/Role'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: updateRole
+      description: Update role
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                permissions:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - blockId
+                      - createPermission
+                      - readPermission
+                      - updatePermission
+                      - deletePermission
+                    properties:
+                      id:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      createPermission:
+                        type: boolean
+                      readPermission:
+                        type: boolean
+                      updatePermission:
+                        type: boolean
+                      deletePermission:
+                        type: boolean
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    $ref: '#/components/schemas/Role'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: deleteRole
+      description: Delete Role
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Role deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /roles/blocks:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: getAllBlocks
+      description: List all roles blocks
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  blocks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RoleBlock'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/roles/blocks/{blockId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - roles
+      operationId: getBlockById
+      description: Get role block
+      parameters:
+        - in: path
+          name: blockId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  block:
+                    $ref: '#/components/schemas/RoleBlock'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      required:
+        - _id
+        - email
+        - vintagesParentalControl
+        - createdAt
+        - updatedAt
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        lastName:
+          type: string
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+        birthday:
+          type: string
+          format: date
+        birthplace:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        vintagesParentalControl:
+          type: array
+          items:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+    UserCompanyAccess:
+      type: object
+      required:
+        - _id
+        - role
+        - company
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        company:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        location:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        role:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+    Company:
+      type: object
+      required:
+        - _id
+        - type
+        - fullName
+        - status
+        - name
+        - phone
+        - vatNumber
+        - email
+        - createdBy
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        type:
+          type: string
+          enum:
+            - winery
+            - professional
+            - reseller
+        fullName:
+          type: string
+        phone:
+          type: string
+        vatNumber:
+          type: string
+        email:
+          type: string
+          format: email
+        website:
+          type: string
+          format: uri
+        instagram:
+          type: string
+          format: uri
+        facebook:
+          type: string
+          format: uri
+        twitter:
+          type: string
+          format: uri
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - pending
+            - active
+            - rejected
+    Address:
+      type: object
+      required:
+        - _id
+        - name
+        - isLocationEnabled
+        - country
+        - city
+        - province
+        - postalCode
+        - address
+        - vintagesParentalControl
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
+        isLocationEnabled:
+          type: boolean
+        country:
+          type: string
+        city:
+          type: string
+        province:
+          type: string
+        postalCode:
+          type: string
+        address:
+          type: string
+        vintagesParentalControl:
+          type: array
+          items:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+    WineContainer:
+      type: object
+      required:
+        - _id
+        - type
+        - capacity
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        type:
+          type: string
+          enum:
+            - smart_bag
+            - bottle
+        capacity:
+          type: integer
+          minimum: 1
+    UserVintage:
+      type: object
+      required:
+        - _id
+        - name
+        - winery
+        - year
+        - wineColor
+        - temperature
+        - createdBy
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
+        winery:
+          type: string
+        year:
+          type: string
+        wineColor:
+          type: string
+          enum:
+            - red
+            - white
+            - rose
+        temperature:
+          type: integer
+        label:
+          type: string
+          format: uri
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+    Wine:
+      type: object
+      required:
+        - _id
+        - wineryId
+        - name
+        - description
+        - wineColor
+        - region
+        - status
+        - isClaimedByWinery
+        - createdBy
+        - createdAt
+        - updatedBy
+        - updatedAt
+      properties:
+        _id:
+          type: string
+        wineryId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        description:
+          type: array
+          items:
+            type: object
+            properties:
+              locale:
+                type: string
+              description:
+                type: string
+        wineColor:
+          type: string
+          enum:
+            - red
+            - white
+            - rose
+        wineTypes:
+          type: array
+          items:
+            type: string
+        grapes:
+          type: array
+          items:
+            type: string
+        moods:
+          type: array
+          items:
+            type: string
+        pairings:
+          type: array
+          items:
+            type: string
+        allergens:
+          type: array
+          items:
+            type: string
+        philosophy:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          enum:
+            - pending
+            - active
+            - rejected
+        isClaimedByWinery:
+          type: boolean
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        updatedAt:
+          type: string
+          format: date-time
+    WineVintage:
+      type: object
+      required:
+        - _id
+        - wineId
+        - year
+        - alcohol
+        - temperature
+        - label
+        - status
+        - isClaimedByWinery
+        - createdBy
+        - createdAt
+        - updatedBy
+        - updatedAt
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        wineId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        temperature:
+          type: integer
+        status:
+          type: string
+          enum:
+            - pending
+            - active
+            - rejected
+        isClaimedByWinery:
+          type: boolean
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        updatedAt:
+          type: string
+          format: date-time
+    WineVintageReview:
+      type: object
+      required:
+        - vintageId
+        - ownerId
+        - text
+        - stars
+        - createdBy
+        - createdAt
+        - updatedBy
+        - updatedAt
+      properties:
+        vintageId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        text:
+          type: string
+        stars:
+          type: integer
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        updatedAt:
+          type: string
+          format: date-time
+    Bottle:
+      type: object
+      required:
+        - _id
+        - createdBy
+        - model
+        - vintageId
+        - ownerId
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        model:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        vintageId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+    SmartBag:
+      type: object
+      required:
+        - _id
+        - createdBy
+        - model
+        - type
+        - serial
+        - expiryDate
+        - refillCounter
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        model:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        vintageId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        type:
+          type: string
+          enum:
+            - empty
+            - empty
+        serial:
+          type: string
+        quantityLeft:
+          type: number
+        openedAt:
+          type: string
+          format: date-time
+        expiryDate:
+          type: string
+          format: date-time
+        refillCounter:
+          type: integer
+          minimum: 0
+    RoleBlock:
+      type: object
+      required:
+        - _id
+        - blockName
+        - urls
+      properties:
+        id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        blockName:
+          type: string
+        urls:
+          type: array
+          items:
+            type: string
+            format: uri
+    Role:
+      type: object
+      required:
+        - _id
+        - name
+        - companyId
+        - permissions
+      properties:
+        id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
+        companyId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        permissions:
+          type: array
+          items:
+            type: object
+            required:
+              - blockId
+              - createPermission
+              - readPermission
+              - updatePermission
+              - deletePermission
+            properties:
+              blockId:
+                type: string
+                pattern: '[a-fA-F0-9]{24}'
+              createPermission:
+                type: boolean
+              readPermission:
+                type: boolean
+              updatePermission:
+                type: boolean
+              deletePermission:
+                type: boolean
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdAt:
+          type: string
+          format: date-time
+        updatedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        updatedAt:
+          type: string
+          format: date-time
+    Dispenser:
+      type: object
+      required:
+        - _id
+        - name
+        - model
+        - serial
+        - firmware
+        - batteryStatus
+        - status
+        - mode
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
+        model:
+          type: string
+          enum:
+            - home
+            - pro
+        serial:
+          type: string
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        macAddress:
+          type: string
+        wifiName:
+          type: string
+        firmware:
+          type: string
+        batteryStatus:
+          type: string
+        status:
+          type: string
+          enum:
+            - online
+            - offline
+        mode:
+          type: string
+          enum:
+            - eco
+            - boost
+            - silent
+        pairedAt:
+          type: Date
+        pairedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        chassis:
+          type: object
+          properties:
+            chassis:
+              type: string
+              pattern: '[a-fA-F0-9]{24}'
+            slot:
+              type: number
+        parentalControl:
+          type: boolean
+        locationId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        roomId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        roomTemperature:
+          type: number
+        wineTemperature:
+          type: number
+        bagId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+    Chassis:
+      type: object
+      required:
+        - _id
+        - name
+        - totalSlots
+        - createdBy
+        - updatedBy
+        - ownerId
+        - locationId
+        - roomId
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
+        totalSlots:
+          type: number
+        createdBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        updatedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        locationId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        roomId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+    Job:
+      type: object
+      required:
+        - _id
+        - timestamp
+        - userId
+        - dispenserId
+        - httpRequest
+        - status
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        timestamp:
+          type: Date
+        userId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        dispenserId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        httpRequest:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+                - get
+                - post
+                - delete
+                - patch
+                - put
+            url:
+              type: string
+            queryParameters:
+              type: object
+            body:
+              type: object
+        status:
+          type: string
+          enum:
+            - pending
+            - running
+    ExecutedJob:
+      type: object
+      required:
+        - _id
+        - timestamp
+        - userId
+        - dispenserId
+        - httpRequest
+        - status
+        - result
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        timestamp:
+          type: Date
+        userId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        dispenserId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        httpRequest:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+                - get
+                - post
+                - delete
+                - patch
+                - put
+            url:
+              type: string
+            queryParameters:
+              type: object
+            body:
+              type: object
+        status:
+          type: string
+          enum:
+            - failed
+            - completed
+        result:
+          type: object
