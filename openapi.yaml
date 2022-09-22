@@ -4038,15 +4038,15 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  /dispenser/chassises:
+  /dispenser/chassis:
     get:
       summary: List
       security:
         - Authorization: []
       tags:
-        - chassises
+        - chassis
       operationId: getAllChassis
-      description: List all chassises
+      description: List all chassis
       parameters:
         - in: query
           name: page
@@ -4061,7 +4061,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  chassises:
+                  chassis:
                     type: array
                     items:
                       $ref: '#/components/schemas/Chassis'
@@ -4080,7 +4080,7 @@ paths:
       security:
         - Authorization: []
       tags:
-        - chassises
+        - chassis
       operationId: createChassis
       description: Create a new chassis
       requestBody:
@@ -4123,13 +4123,13 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  '/dispenser/chassises/{dispenserId}':
+  '/dispenser/chassis/{dispenserId}':
     get:
       summary: Detail
       security:
         - Authorization: []
       tags:
-        - chassises
+        - chassis
       operationId: getChassis
       description: Get details about chassis
       parameters:
@@ -4167,7 +4167,7 @@ paths:
       security:
         - Authorization: []
       tags:
-        - chassises
+        - chassis
       operationId: deleteChassis
       description: Delete chassis
       parameters:
