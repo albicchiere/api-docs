@@ -1178,6 +1178,19 @@ paths:
         - users
       operationId: addParentalControlOnVintage
       description: Enable parental control for a wine vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
       requestBody:
         required: true
         content:
@@ -1186,9 +1199,8 @@ paths:
               type: object
               properties:
                 wine:
-                  type:
-                    type: string
-                    pattern: '[a-fA-F0-9]{24}'
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -1222,11 +1234,23 @@ paths:
       operationId: removeParentalControlOnVintage
       description: Disable parental control for a wine vintage
       parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: vintageId
           required: true
           schema:
             type: string
+            pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -2352,7 +2376,7 @@ paths:
         - Authorization: []
       tags:
         - wines
-      operationId: createWineLabel
+      operationId: createWineVintageLabel
       description: Create a vintage wine image
       parameters:
         - in: header
@@ -4018,18 +4042,16 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
       responses:
-        '200':
+        '202':
           description: Object
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
+                  jobId:
                     type: string
-                    enum:
-                      - Parental control enabled
-                      - Parental control disabled
+                    pattern: '[a-fA-F0-9]{24}'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -4204,6 +4226,165 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /dispenser/locations:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_locations
+      operationId: getAllLocations
+      description: List all loactions
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DispenserLocation'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_locations
+      operationId: createLocation
+      description: Create a new location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chassis:
+                    $ref: '#/components/schemas/DispenserLocation'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/locations/{locationId}/rooms':
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_locations
+      operationId: getAllRooms
+      description: List all rooms
+      parameters:
+        - name: locationId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rooms:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DispenserLocationRoom'
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_locations
+      operationId: createRoom
+      description: Create a new room
+      parameters:
+        - name: locationId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  room:
+                    $ref: '#/components/schemas/DispenserLocationRoom'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/jobs:
@@ -4833,6 +5014,8 @@ components:
             - reseller
         fullName:
           type: string
+        name:
+          type: string
         phone:
           type: string
         vatNumber:
@@ -5352,6 +5535,32 @@ components:
         roomId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+    DispenserLocation:
+      type: object
+      required:
+        - _id
+        - name
+        - ownerId
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+    DispenserLocationRoom:
+      type: object
+      required:
+        - _id
+        - name
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
     Job:
       type: object
       required:
