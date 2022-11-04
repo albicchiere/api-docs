@@ -9,7 +9,7 @@ info:
     name: API Support
     email: support@albicchiere.com
 servers:
-  - url: 'https://api-staging.albitest.ml'
+  - url: 'https://api.albitest.ml'
 paths:
   /companies:
     get:
@@ -1779,6 +1779,64 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/user_vintages/{userVintageId}/label':
+    post:
+      summary: Create Image
+      security:
+        - Authorization: []
+      tags:
+        - user_vintages
+      operationId: createUserVintageLabel
+      description: Create a user vintage image
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: userVintageId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+              format: byte
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Label created
+                  url:
+                    type: string
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/wines:
@@ -4935,7 +4993,11 @@ components:
       type: object
       required:
         - _id
+        - cognitoId
+        - signInClientId
         - email
+        - policyConsent
+        - marketingConsent
         - vintagesParentalControl
         - createdAt
         - updatedAt
@@ -4943,6 +5005,26 @@ components:
         _id:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+          description: Mongoose db id
+        cognitoId:
+          type: string
+          format: uuid
+        signInClientId:
+          type: string
+          description: Cognito Pool Client Id
+        clientIds:
+          type: object
+          required:
+            - id
+            - firstAccess
+          properties:
+            id:
+              type: string
+            firstAccess:
+              type: date-time
+        provider:
+          type: string
+          description: 'if user login via social (ex Google, Facebook...)'
         email:
           type: string
           format: email
@@ -4960,6 +5042,20 @@ components:
           format: date
         birthplace:
           type: string
+        policyConsent:
+          type: object
+          required:
+            - consent
+          properties:
+            consent:
+              type: boolean
+        marketingConsent:
+          type: object
+          required:
+            - consent
+          properties:
+            consent:
+              type: boolean
         createdAt:
           type: string
           format: date-time
@@ -4971,6 +5067,8 @@ components:
           items:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+        profiling:
+          type: object
     UserCompanyAccess:
       type: object
       required:
@@ -4990,6 +5088,8 @@ components:
         role:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        profiling:
+          type: object
     Company:
       type: object
       required:
@@ -5110,6 +5210,7 @@ components:
         - wineColor
         - temperature
         - createdBy
+        - updatedBy
       properties:
         _id:
           type: string
@@ -5128,12 +5229,22 @@ components:
             - rose
         temperature:
           type: integer
+        location:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
         label:
           type: string
           format: uri
         createdBy:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        createAt:
+          type: string
+        updatedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        updatedAt:
+          type: string
     Wine:
       type: object
       required:
@@ -5155,6 +5266,8 @@ components:
         wineryId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        name:
+          type: string
         description:
           type: array
           items:
@@ -5170,6 +5283,8 @@ components:
             - red
             - white
             - rose
+        region:
+          type: string
         wineTypes:
           type: array
           items:
@@ -5236,8 +5351,26 @@ components:
         wineId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        year:
+          type: number
+        yearDetails:
+          type: string
+        description:
+          type: string
+        alcohol:
+          type: number
         temperature:
           type: integer
+        label:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        awards:
+          type: array
+          items:
+            type: string
         status:
           type: string
           enum:
@@ -5261,6 +5394,7 @@ components:
     WineVintageReview:
       type: object
       required:
+        - _id
         - vintageId
         - ownerId
         - text
@@ -5270,6 +5404,9 @@ components:
         - updatedBy
         - updatedAt
       properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
         vintageId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -5365,27 +5502,25 @@ components:
       required:
         - _id
         - blockName
-        - urls
+        - regex
       properties:
-        id:
+        _id:
           type: string
           pattern: '[a-fA-F0-9]{24}'
         blockName:
           type: string
-        urls:
+        regex:
           type: array
           items:
             type: string
-            format: uri
     Role:
       type: object
       required:
         - _id
         - name
-        - companyId
         - permissions
       properties:
-        id:
+        _id:
           type: string
           pattern: '[a-fA-F0-9]{24}'
         name:
@@ -5442,6 +5577,9 @@ components:
         _id:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        ownerId:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         model:
@@ -5451,9 +5589,6 @@ components:
             - pro
         serial:
           type: string
-        ownerId:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
         macAddress:
           type: string
         wifiName:
