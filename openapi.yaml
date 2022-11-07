@@ -1783,7 +1783,7 @@ paths:
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/user_vintages/{userVintageId}/label':
     post:
-      summary: Create Image
+      summary: Create User Vintage Label
       security:
         - Authorization: []
       tags:
@@ -1811,10 +1811,14 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          image/png:
             schema:
               type: string
-              format: byte
+              format: binary
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
       responses:
         '200':
           description: Object
@@ -1825,8 +1829,6 @@ paths:
                 properties:
                   message:
                     type: string
-                    enum:
-                      - Label created
                   url:
                     type: string
         '400':
@@ -1854,6 +1856,61 @@ paths:
           required: false
           schema:
             type: integer
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: color
+          required: false
+          schema:
+            type: string
+            enum:
+              - red
+              - white"
+              - rose
+        - in: query
+          name: region
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: wine_types
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: grapes
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: moods
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: pairings
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: allergens
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: philosophy
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
       responses:
         '200':
           description: Object
@@ -2392,16 +2449,62 @@ paths:
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  '/wine/wines/{wineId}/vintages/{vintageId}/label':
+  '/wine/wines/vintages/{vintageId}':
     get:
-      summary: Get Image
+      summary: Detail
       security:
         - Authorization: []
       tags:
         - wines
-      operationId: getWineLabel
-      description: Get vintage image
+      operationId: getWineVintage
+      description: Get details about wine vintage
       parameters:
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintage:
+                    $ref: '#/components/schemas/WineVintage'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/label':
+    post:
+      summary: Create Image
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: createWineVintageLabel
+      description: Create a vintage wine label
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -2412,6 +2515,17 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        required: true
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
       responses:
         '200':
           description: Object
@@ -2420,21 +2534,28 @@ paths:
               schema:
                 type: object
                 properties:
-                  wines:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Wine'
+                  message:
+                    type: string
+                  url:
+                    type: string
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
         '404':
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/image/{fileName}':
     post:
       summary: Create Image
       security:
         - Authorization: []
       tags:
         - wines
-      operationId: createWineVintageLabel
+      operationId: addWineVintageImage
       description: Create a vintage wine image
       parameters:
         - in: header
@@ -2459,6 +2580,22 @@ paths:
           required: true
           schema:
             type: string
+        - in: path
+          name: fileName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
       responses:
         '200':
           description: Object
@@ -2467,8 +2604,66 @@ paths:
               schema:
                 type: object
                 properties:
-                  wine:
-                    $ref: '#/components/schemas/Wine'
+                  message:
+                    type: string
+                  url:
+                    type: string
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete Image
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: addWineVintageImage
+      description: Create a vintage wine image
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: fileName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
