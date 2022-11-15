@@ -1072,6 +1072,44 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /users/me/stats:
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUserMeStats
+      description: Get details about my user
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserStat'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/locations:
     get:
       summary: List
@@ -1868,7 +1906,7 @@ paths:
             type: string
             enum:
               - red
-              - white"
+              - white
               - rose
         - in: query
           name: region
@@ -2782,6 +2820,45 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/reviews/recap':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getWineVintageReviewsRecap
+      description: Get vintage review recap
+      parameters:
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vintage:
+                    $ref: '#/components/schemas/WineVintageReviewRecap'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/review':
     get:
       summary: Detail
@@ -3592,13 +3669,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: query
           name: page
           required: false
@@ -3640,13 +3717,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
       requestBody:
         required: true
         content:
@@ -3700,13 +3777,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -3750,13 +3827,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -3827,13 +3904,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -3884,13 +3961,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -3957,13 +4034,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - name: dispenserId
           in: path
           require: true
@@ -4016,13 +4093,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - name: dispenserId
           in: path
           require: true
@@ -4076,13 +4153,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - name: dispenserId
           in: path
           require: true
@@ -4133,13 +4210,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - name: dispenserId
           in: path
           require: true
@@ -4179,13 +4256,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - name: dispenserId
           in: path
           require: true
@@ -4225,13 +4302,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - name: dispenserId
           in: path
           require: true
@@ -4281,13 +4358,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -4655,13 +4732,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: query
           name: page
           required: false
@@ -4704,13 +4781,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: jobId
           required: true
@@ -4755,13 +4832,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: query
           name: page
           required: false
@@ -4804,13 +4881,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: jobId
           required: true
@@ -5285,6 +5362,23 @@ components:
           pattern: '[a-fA-F0-9]{24}'
         profiling:
           type: object
+    UserStat:
+      type: object
+      required:
+        - vintagesDrunk
+        - glassesDrunk
+        - labels
+        - favouriteWine
+      properties:
+        vintagesDrunk:
+          type: integer
+        glassesDrunk:
+          type: integer
+        labels:
+          type: integer
+        favouriteWine:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
     Company:
       type: object
       required:
@@ -5592,8 +5686,8 @@ components:
         - _id
         - vintageId
         - ownerId
-        - text
-        - stars
+        - description
+        - rating
         - createdBy
         - createdAt
         - updatedBy
@@ -5608,10 +5702,25 @@ components:
         ownerId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
-        text:
+        description:
           type: string
-        stars:
+        rating:
           type: integer
+        intensity:
+          type: number
+          format: double
+        tannin:
+          type: number
+          format: double
+        sweetness:
+          type: number
+          format: double
+        acidity:
+          type: number
+          format: double
+        fizziness:
+          type: number
+          format: double
         createdBy:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -5624,6 +5733,49 @@ components:
         updatedAt:
           type: string
           format: date-time
+    WineVintageReviewRecap:
+      type: object
+      required:
+        - _id
+        - rating1
+        - rating2
+        - rating3
+        - rating4
+        - rating5
+        - avgIntensity
+        - avgTannin
+        - avgSweetness
+        - avgAcidity
+        - avgFizziness
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        rating1:
+          type: integer
+        rating2:
+          type: integer
+        rating3:
+          type: integer
+        rating4:
+          type: integer
+        rating5:
+          type: integer
+        avgIntensity:
+          type: number
+          format: double
+        avgTannin:
+          type: number
+          format: double
+        avgSweetness:
+          type: number
+          format: double
+        avgAcidity:
+          type: number
+          format: double
+        avgFizziness:
+          type: number
+          format: double
     Bottle:
       type: object
       required:
