@@ -4917,6 +4917,66 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /app_settings/mobile_app_config/config:
+    get:
+      summary: AlbiSommelier config
+      security:
+        - Authorization: []
+      tags:
+        - app_settings
+      operationId: getAlbiSommelierConfig
+      description: Get albi sommelier page configuration
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /app_settings/mobile_app_config/home:
+    get:
+      summary: Home config
+      security:
+        - Authorization: []
+      tags:
+        - app_settings
+      operationId: getHomeConfig
+      description: Get home page configuration
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /app_settings/mobile_app_config/search:
+    get:
+      summary: Search config
+      security:
+        - Authorization: []
+      tags:
+        - app_settings
+      operationId: getSearchConfig
+      description: Get search page configuration
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /roles:
     get:
       summary: List
