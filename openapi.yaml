@@ -9,7 +9,7 @@ info:
     name: API Support
     email: support@albicchiere.com
 servers:
-  - url: 'https://api-staging.albitest.ml'
+  - url: 'https://api.albitest.ml'
 paths:
   /companies:
     get:
@@ -2793,13 +2793,28 @@ paths:
             schema:
               type: object
               required:
-                - text
-                - stars
+                - rating
+                - description
               properties:
-                text:
+                description:
                   type: string
-                stars:
+                rating:
                   type: integer
+                intensity:
+                  type: number
+                  format: double
+                tannin:
+                  type: number
+                  format: double
+                sweetness:
+                  type: number
+                  format: double
+                acidity:
+                  type: number
+                  format: double
+                fizziness:
+                  type: number
+                  format: double
       responses:
         '200':
           description: Object
@@ -2896,6 +2911,150 @@ paths:
                     $ref: '#/components/schemas/WineVintageReview'
         '404':
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: editWineVintageReview
+      description: Edit info about wine vintage review
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                rating:
+                  type: integer
+                intensity:
+                  type: number
+                  format: double
+                tannin:
+                  type: number
+                  format: double
+                sweetness:
+                  type: number
+                  format: double
+                acidity:
+                  type: number
+                  format: double
+                fizziness:
+                  type: number
+                  format: double
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    $ref: '#/components/schemas/WineVintageReview'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: deleteWineVintageReview
+      description: Delete wine vintage review
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: wineId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Review deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /cantina/smart_bags:
