@@ -964,7 +964,7 @@ paths:
                     type: integer
         '401':
           name: Cognito Unauthorized
-          description: Endpont reachable only after authentication with cognito
+          description: Endpoint reachable only after authentication with cognito
           content:
             application/json:
               schema:
@@ -2154,7 +2154,7 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '412':
           name: Cognito Unauthorized
-          description: Endpont reachable only after authentication with cognito
+          description: Endpoint reachable only after authentication with cognito
           content:
             application/json:
               schema:
@@ -2927,13 +2927,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: path
           name: wineId
           required: true
@@ -5076,7 +5076,7 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  /app_settings/mobile_app_config/config:
+  /app_settings/mobile_app_config/albi_sommelier:
     get:
       summary: AlbiSommelier config
       security:
@@ -5596,8 +5596,22 @@ components:
         labels:
           type: integer
         favouriteWine:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+          type: object
+          properties:
+            value:
+              type: integer
+              minimum: 0
+              maximum: 100
+            type:
+              type: string
+              enum:
+                - red
+                - white
+                - rose
+                - red-white
+                - red-rose
+                - white-rose
+                - draw
     Company:
       type: object
       required:
@@ -6054,6 +6068,10 @@ components:
           type: string
         quantityLeft:
           type: number
+        qualityScore:
+          type: number
+          minimum: 0
+          maximum: 100
         openedAt:
           type: string
           format: date-time
