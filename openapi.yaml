@@ -9,7 +9,7 @@ info:
     name: API Support
     email: support@albicchiere.com
 servers:
-  - url: 'https://api-staging.albitest.ml'
+  - url: 'https://api.albitest.ml'
 paths:
   /companies:
     get:
@@ -1361,6 +1361,219 @@ paths:
                       - NotFoundError
                   error_message:
                     type: string
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users/me/wishlist:
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUserMeWishlist
+      description: Get user's wishlist
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWishList'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users/me/wishlist/add_vintage:
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: addVintageToWishlist
+      description: Add Vintage To Wishlist
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vintage:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWishList'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/me/wishlist/remove_vintage/{vintageId}':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: removeVintageFromWishlist
+      description: Remove Vintage From Wishlist
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: vintageId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Removed vintage from wishlist
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /users/me/wishlist/share:
+    post:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: shareWishlist
+      description: Share Wishlist
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shared_wishlist:
+                    $ref: '#/components/schemas/UserWishListShared'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/me/wishlist/{sharedWishlistId}':
+    Get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getSharedWishlist
+      description: Get Share Wishlist
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: sharedWishlistId
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shared_wishlist:
+                    $ref: '#/components/schemas/UserWishListShared'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/wine_container_models:
@@ -3426,6 +3639,65 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/set_custom_temperature':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: setCustomTemperature
+      description: setCustomTemperature
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: serial
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - customTemperature
+              properties:
+                customTemperature:
+                  type: number
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /cantina/bottles:
     get:
       summary: List
@@ -3695,6 +3967,28 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bags
+              properties:
+                bags:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - quantityLeft
+                      - serial
+                    properties:
+                      quantityLeft:
+                        type: number
+                      serial:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -3715,102 +4009,6 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '404':
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
-        '500':
-          $ref: '#/paths/~1users/get/responses/500'
-  /cantina/owner_preferences:
-    get:
-      summary: Detail
-      security:
-        - Authorization: []
-      tags:
-        - users
-      operationId: getOwnerPreferences
-      description: Detail owner preferences
-      parameters:
-        - in: header
-          name: albi-current-company
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
-          required: false
-        - in: header
-          name: albi-current-location
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
-          required: false
-      responses:
-        '200':
-          description: Object
-          headers:
-            etag:
-              schema:
-                type: string
-                description: This header is an identifier for a specific version of a resource.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  preferences:
-                    $ref: '#/paths/~1cantina~1owner_preferences/put/requestBody/content/application~1json/schema'
-        '401':
-          $ref: '#/paths/~1users/get/responses/401'
-        '403':
-          $ref: '#/paths/~1users/get/responses/403'
-        '500':
-          $ref: '#/paths/~1users/get/responses/500'
-    put:
-      summary: Update
-      security:
-        - Authorization: []
-      tags:
-        - users
-      operationId: putOwnerPreferences
-      description: Update owner preferences
-      parameters:
-        - in: header
-          name: albi-current-company
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
-          required: false
-        - in: header
-          name: albi-current-location
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
-          required: false
-        - in: header
-          name: if-match
-          schema:
-            type: string
-          required: true
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - vintages
-              properties:
-                vintages:
-                  type: object
-      responses:
-        '200':
-          description: Object
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  preferences:
-                    $ref: '#/paths/~1cantina~1owner_preferences/put/requestBody/content/application~1json/schema'
-        '401':
-          $ref: '#/paths/~1users/get/responses/401'
-        '403':
-          $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/dispensers:
@@ -5612,6 +5810,40 @@ components:
                 - red-rose
                 - white-rose
                 - draw
+    UserWishList:
+      type: object
+      required:
+        - wishlist
+      properties:
+        wishlist:
+          type: array
+          items:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+    UserWishListShared:
+      type: object
+      required:
+        - _id
+        - vintages
+        - owner
+      properties:
+        _id:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        vintages:
+          type: array
+          items:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        owner:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     Company:
       type: object
       required:
@@ -6067,6 +6299,8 @@ components:
         serial:
           type: string
         quantityLeft:
+          type: number
+        customTemperature:
           type: number
         qualityScore:
           type: number
