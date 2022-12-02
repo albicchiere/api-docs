@@ -1576,6 +1576,94 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /notifications/register_new_device:
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - notifications
+      operationId: registerNewDevice
+      description: Register New Device Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - platform
+                - token
+              properties:
+                platform:
+                  type: string
+                  enum:
+                    - android
+                    - apple
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /notifications/delete_device:
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - notifications
+      operationId: deleteDevice
+      description: Delete Device Token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - platform
+                - token
+              properties:
+                platform:
+                  type: string
+                  enum:
+                    - android
+                    - apple
+                token:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /wine/wine_container_models:
     get:
       summary: List
