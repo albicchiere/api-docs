@@ -3366,7 +3366,7 @@ paths:
       tags:
         - wines
       operationId: postWineScanLabel
-      description: Get results from scanning an uploaded image of type jpeg or png. Other results come as an array of ids.
+      description: Get results from scanning an uploaded image of type jpeg or png.
       parameters:
         - in: header
           name: albi-current-company
@@ -3411,7 +3411,6 @@ paths:
           $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
         "500":
           $ref: "#/paths/~1users/get/responses/500"
-
   /cantina/smart_bags:
     get:
       summary: List
