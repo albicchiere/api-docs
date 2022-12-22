@@ -6133,6 +6133,9 @@ components:
         - year
         - wineColor
         - temperature
+        - region
+        - grapes
+        - alcohol
         - createdBy
         - updatedBy
       properties:
@@ -6153,6 +6156,14 @@ components:
             - rose
         temperature:
           type: integer
+        region:
+          type: string
+        grapes:
+          type: array
+          items:
+            type: string
+        alcohol:
+          type: number
         location:
           type: string
           pattern: '[a-fA-F0-9]{24}'
