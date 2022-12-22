@@ -9,7 +9,7 @@ info:
     name: API Support
     email: support@albicchiere.com
 servers:
-  - url: "https://api-staging.albitest.ml"
+  - url: 'https://api-staging.albitest.ml'
 paths:
   /companies:
     get:
@@ -27,7 +27,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -37,17 +37,17 @@ paths:
                   companies:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Company"
+                      $ref: '#/components/schemas/Company'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -101,7 +101,7 @@ paths:
                   type: array
                   items:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
+                    pattern: '[a-fA-F0-9]{24}'
                 addresses:
                   type: array
                   minItems: 1
@@ -130,7 +130,7 @@ paths:
                       address:
                         type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -138,16 +138,16 @@ paths:
                 type: object
                 properties:
                   company:
-                    $ref: "#/components/schemas/Company"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/companies/{companyId}":
+                    $ref: '#/components/schemas/Company'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}':
     get:
       summary: Detail
       security:
@@ -162,9 +162,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -177,15 +177,15 @@ paths:
                 type: object
                 properties:
                   company:
-                    $ref: "#/components/schemas/Company"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Company'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -199,20 +199,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -243,7 +243,7 @@ paths:
                   type: string
                   format: uri
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -251,20 +251,20 @@ paths:
                 type: object
                 properties:
                   company:
-                    $ref: "#/components/schemas/Company"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/companies/{companyId}/change_status":
+                    $ref: '#/components/schemas/Company'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/change_status':
     post:
       summary: Action
       security:
@@ -279,16 +279,16 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: string
-              pattern: "[a-fA-F0-9]{24}"
+              pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -299,17 +299,17 @@ paths:
                     type: string
                     enum:
                       - State changed
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/companies/{companyId}/addresses":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/addresses':
     get:
       summary: List
       security:
@@ -324,14 +324,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: query
           name: page
           required: false
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -341,19 +341,19 @@ paths:
                   addresses:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Address"
+                      $ref: '#/components/schemas/Address'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -367,20 +367,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -410,7 +410,7 @@ paths:
                 address:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -418,16 +418,16 @@ paths:
                 type: object
                 properties:
                   address:
-                    $ref: "#/components/schemas/Address"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/companies/{companyId}/addresses/{addressId}":
+                    $ref: '#/components/schemas/Address'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/addresses/{addressId}':
     get:
       summary: Detail
       security:
@@ -441,22 +441,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: addressId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -469,15 +469,15 @@ paths:
                 type: object
                 properties:
                   address:
-                    $ref: "#/components/schemas/Address"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Address'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -491,26 +491,26 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: addressId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -538,7 +538,7 @@ paths:
                 address:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -546,19 +546,19 @@ paths:
                 type: object
                 properties:
                   address:
-                    $ref: "#/components/schemas/Address"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Address'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -572,33 +572,33 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: addressId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -609,17 +609,17 @@ paths:
                     type: string
                     enum:
                       - Address deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/companies/{companyId}/user_accesses":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/user_accesses':
     get:
       summary: List
       security:
@@ -633,27 +633,27 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: query
           name: page
           required: false
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -663,19 +663,19 @@ paths:
                   user_accesses:
                     type: array
                     items:
-                      $ref: "#/components/schemas/UserCompanyAccess"
+                      $ref: '#/components/schemas/UserCompanyAccess'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Action
       security:
@@ -689,20 +689,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -717,12 +717,12 @@ paths:
                 properties:
                   location:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
+                    pattern: '[a-fA-F0-9]{24}'
                   role:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
+                    pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -730,18 +730,18 @@ paths:
                 type: object
                 properties:
                   user_access:
-                    $ref: "#/components/schemas/UserCompanyAccess"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/companies/{companyId}/user_accesses/{accessId}":
+                    $ref: '#/components/schemas/UserCompanyAccess'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/user_accesses/{accessId}':
     get:
       summary: Detail
       security:
@@ -755,28 +755,28 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: accessId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -789,15 +789,15 @@ paths:
                 type: object
                 properties:
                   user_access:
-                    $ref: "#/components/schemas/UserCompanyAccess"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/UserCompanyAccess'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -811,26 +811,26 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: accessId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -845,12 +845,12 @@ paths:
               properties:
                 role:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 location:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -858,19 +858,19 @@ paths:
                 type: object
                 properties:
                   user_access:
-                    $ref: "#/components/schemas/UserCompanyAccess"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/UserCompanyAccess'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -884,33 +884,33 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: companyId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: accessId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -921,16 +921,16 @@ paths:
                     type: string
                     enum:
                       - User Access deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users:
     get:
       summary: List
@@ -947,7 +947,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -957,12 +957,12 @@ paths:
                   users:
                     type: array
                     items:
-                      $ref: "#/components/schemas/User"
+                      $ref: '#/components/schemas/User'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
+        '401':
           name: Cognito Unauthorized
           description: Endpoint reachable only after authentication with cognito
           content:
@@ -972,7 +972,7 @@ paths:
                 properties:
                   message:
                     type: string
-        "403":
+        '403':
           name: ApiForbiddenError
           description: Internal scope auth error
           content:
@@ -986,7 +986,7 @@ paths:
                       - ForbiddenError
                   error_message:
                     type: string
-        "500":
+        '500':
           name: InternalError
           description: Generic internal error
           content:
@@ -1010,7 +1010,7 @@ paths:
       operationId: getUserMe
       description: Get details about my user
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1018,13 +1018,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -1055,7 +1055,7 @@ paths:
                 birthplace:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1063,15 +1063,15 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: "#/components/schemas/User"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/User'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/stats:
     get:
       summary: Detail
@@ -1086,16 +1086,16 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1103,13 +1103,13 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: "#/components/schemas/UserStat"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/UserStat'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/locations:
     get:
       summary: List
@@ -1126,7 +1126,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1136,19 +1136,19 @@ paths:
                   locations:
                     type: array
                     items:
-                      $ref: "#/components/schemas/UserCompanyAccess"
+                      $ref: '#/components/schemas/UserCompanyAccess'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/image:
     get:
       summary: Detail
@@ -1159,7 +1159,7 @@ paths:
       operationId: getUserImageMe
       description: Get image of my user
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1167,11 +1167,11 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: "#/components/schemas/User"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/User'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Action
       security:
@@ -1188,7 +1188,7 @@ paths:
               type: string
               format: byte
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1199,14 +1199,14 @@ paths:
                     type: string
                     enum:
                       - Image created
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/add_parental_control_on_vintage:
     post:
       summary: Action
@@ -1221,13 +1221,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -1238,9 +1238,9 @@ paths:
               properties:
                 wine:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1249,20 +1249,20 @@ paths:
                   - type: object
                     properties:
                       user:
-                        $ref: "#/components/schemas/User"
+                        $ref: '#/components/schemas/User'
                   - type: object
                     properties:
                       location:
-                        $ref: "#/components/schemas/UserCompanyAccess"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/users/me/remove_parental_control_on_vintage/{vintageId}":
+                        $ref: '#/components/schemas/UserCompanyAccess'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/me/remove_parental_control_on_vintage/{vintageId}':
     post:
       summary: Action
       security:
@@ -1276,21 +1276,21 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: vintageId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1302,17 +1302,17 @@ paths:
                     enum:
                       - Removed parental control from user
                       - Removed parental control from location
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/users/{userId}":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/{userId}':
     get:
       summary: Detail
       security:
@@ -1327,9 +1327,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -1342,12 +1342,12 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: "#/components/schemas/User"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
           name: NotFoundError
           description: Element with requested uuid not found
           content:
@@ -1361,8 +1361,8 @@ paths:
                       - NotFoundError
                   error_message:
                     type: string
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/wishlist:
     get:
       summary: Detail
@@ -1377,27 +1377,27 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWishList"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                $ref: '#/components/schemas/UserWishList'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/wishlist/add_vintage:
     post:
       summary: Action
@@ -1412,13 +1412,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -1429,23 +1429,23 @@ paths:
               properties:
                 vintage:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserWishList"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/users/me/wishlist/remove_vintage/{vintageId}":
+                $ref: '#/components/schemas/UserWishList'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/me/wishlist/remove_vintage/{vintageId}':
     post:
       summary: Action
       security:
@@ -1459,21 +1459,21 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: path
           name: vintageId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -1484,16 +1484,16 @@ paths:
                     type: string
                     enum:
                       - Removed vintage from wishlist
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /users/me/wishlist/share:
     post:
       summary: Detail
@@ -1508,16 +1508,16 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -1525,14 +1525,14 @@ paths:
                 type: object
                 properties:
                   shared_wishlist:
-                    $ref: "#/components/schemas/UserWishListShared"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/users/me/wishlist/{sharedWishlistId}":
+                    $ref: '#/components/schemas/UserWishListShared'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/users/me/wishlist/{sharedWishlistId}':
     Get:
       summary: Detail
       security:
@@ -1546,22 +1546,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: sharedWishlistId
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1569,13 +1569,13 @@ paths:
                 type: object
                 properties:
                   shared_wishlist:
-                    $ref: "#/components/schemas/UserWishListShared"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/UserWishListShared'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /notifications/register_new_device:
     post:
       summary: Create
@@ -1603,7 +1603,7 @@ paths:
                 token:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1612,14 +1612,14 @@ paths:
                 properties:
                   message:
                     type: string
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /notifications/delete_device:
     post:
       summary: Create
@@ -1647,7 +1647,7 @@ paths:
                 token:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1656,14 +1656,14 @@ paths:
                 properties:
                   message:
                     type: string
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /wine/wine_container_models:
     get:
       summary: List
@@ -1680,7 +1680,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1690,17 +1690,17 @@ paths:
                   models:
                     type: array
                     items:
-                      $ref: "#/components/schemas/WineContainer"
+                      $ref: '#/components/schemas/WineContainer'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -1714,13 +1714,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -1741,7 +1741,7 @@ paths:
                   type: integer
                   minimum: 1
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1749,16 +1749,16 @@ paths:
                 type: object
                 properties:
                   model:
-                    $ref: "#/components/schemas/WineContainer"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wine_container_models/{id}":
+                    $ref: '#/components/schemas/WineContainer'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wine_container_models/{id}':
     get:
       summary: Detail
       security:
@@ -1773,9 +1773,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -1788,15 +1788,15 @@ paths:
                 type: object
                 properties:
                   model:
-                    $ref: "#/components/schemas/WineContainer"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/WineContainer'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -1811,7 +1811,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -1828,7 +1828,7 @@ paths:
                   type: integer
                   minimum: 1
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1836,17 +1836,17 @@ paths:
                 type: object
                 properties:
                   model:
-                    $ref: "#/components/schemas/WineContainer"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/WineContainer'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -1861,14 +1861,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -1879,16 +1879,16 @@ paths:
                     type: string
                     enum:
                       - Model deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /wine/user_vintages:
     get:
       summary: List
@@ -1903,13 +1903,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: query
           name: page
@@ -1917,7 +1917,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -1927,18 +1927,18 @@ paths:
                   user_vintages:
                     type: array
                     items:
-                      $ref: "#/components/schemas/UserVintage"
+                      $ref: '#/components/schemas/UserVintage'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/user_vintages/{userVintageId}":
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/user_vintages/{userVintageId}':
     get:
       summary: Detail
       security:
@@ -1952,22 +1952,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: userVintageId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -1980,15 +1980,15 @@ paths:
                 type: object
                 properties:
                   user_vintage:
-                    $ref: "#/components/schemas/UserVintage"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/UserVintage'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -2002,20 +2002,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: userVintageId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -2043,7 +2043,7 @@ paths:
                 temperature:
                   type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2051,19 +2051,19 @@ paths:
                 type: object
                 properties:
                   user_vintage:
-                    $ref: "#/components/schemas/UserVintage"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/UserVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -2077,27 +2077,27 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: userVintageId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -2108,19 +2108,19 @@ paths:
                     type: string
                     enum:
                       - User vintage deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/user_vintages/{userVintageId}/label":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/user_vintages/{userVintageId}/label':
     post:
       summary: Create User Vintage Label
       security:
@@ -2134,13 +2134,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: userVintageId
@@ -2159,7 +2159,7 @@ paths:
               type: string
               format: binary
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2170,16 +2170,16 @@ paths:
                     type: string
                   url:
                     type: string
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /wine/wines:
     get:
       summary: List
@@ -2251,7 +2251,7 @@ paths:
             type: string
           description: More values separeted by comma
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2261,13 +2261,13 @@ paths:
                   wines:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Wine"
+                      $ref: '#/components/schemas/Wine'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -2281,13 +2281,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -2302,7 +2302,7 @@ paths:
               properties:
                 wineryId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 description:
                   type: array
                   minimum: 0
@@ -2344,7 +2344,7 @@ paths:
                   items:
                     type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2352,16 +2352,16 @@ paths:
                 type: object
                 properties:
                   wine:
-                    $ref: "#/components/schemas/Wine"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}":
+                    $ref: '#/components/schemas/Wine'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}':
     get:
       summary: Detail
       security:
@@ -2377,7 +2377,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -2390,11 +2390,11 @@ paths:
                 type: object
                 properties:
                   wine:
-                    $ref: "#/components/schemas/Wine"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Wine'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -2408,13 +2408,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -2436,7 +2436,7 @@ paths:
                 capacity:
                   type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2444,16 +2444,16 @@ paths:
                 type: object
                 properties:
                   wine:
-                    $ref: "#/components/schemas/Wine"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
+                    $ref: '#/components/schemas/Wine'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
           name: Cognito Unauthorized
           description: Endpoint reachable only after authentication with cognito
           content:
@@ -2463,8 +2463,8 @@ paths:
                 properties:
                   message:
                     type: string
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -2485,7 +2485,7 @@ paths:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -2496,19 +2496,19 @@ paths:
                     type: string
                     enum:
                       - Wine deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages':
     get:
       summary: List
       security:
@@ -2529,7 +2529,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2539,15 +2539,15 @@ paths:
                   vintages:
                     type: array
                     items:
-                      $ref: "#/components/schemas/WineVintage"
+                      $ref: '#/components/schemas/WineVintage'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -2561,13 +2561,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: path
           name: wineId
@@ -2603,7 +2603,7 @@ paths:
                 address:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2611,18 +2611,18 @@ paths:
                 type: object
                 properties:
                   vintage:
-                    $ref: "#/components/schemas/WineVintage"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages/{vintageId}":
+                    $ref: '#/components/schemas/WineVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}':
     get:
       summary: Detail
       security:
@@ -2643,7 +2643,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -2656,11 +2656,11 @@ paths:
                 type: object
                 properties:
                   vintage:
-                    $ref: "#/components/schemas/WineVintage"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/WineVintage'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -2674,13 +2674,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: path
           name: wineId
@@ -2707,7 +2707,7 @@ paths:
                 temperature:
                   type: number
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2715,19 +2715,19 @@ paths:
                 type: object
                 properties:
                   vintage:
-                    $ref: "#/components/schemas/WineVintage"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/WineVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -2741,13 +2741,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -2765,7 +2765,7 @@ paths:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -2776,19 +2776,19 @@ paths:
                     type: string
                     enum:
                       - Vintage deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/vintages/{vintageId}":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/vintages/{vintageId}':
     get:
       summary: Detail
       security:
@@ -2804,7 +2804,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -2817,12 +2817,12 @@ paths:
                 type: object
                 properties:
                   vintage:
-                    $ref: "#/components/schemas/WineVintage"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages/{vintageId}/label":
+                    $ref: '#/components/schemas/WineVintage'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/label':
     post:
       summary: Create Image
       security:
@@ -2836,13 +2836,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -2866,7 +2866,7 @@ paths:
               type: string
               format: binary
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2877,17 +2877,17 @@ paths:
                     type: string
                   url:
                     type: string
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages/{vintageId}/image/{fileName}":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/image/{fileName}':
     post:
       summary: Create Image
       security:
@@ -2901,13 +2901,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -2936,7 +2936,7 @@ paths:
               type: string
               format: binary
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -2947,16 +2947,16 @@ paths:
                     type: string
                   url:
                     type: string
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete Image
       security:
@@ -2970,13 +2970,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -2994,7 +2994,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3003,17 +3003,17 @@ paths:
                 properties:
                   message:
                     type: string
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages/{vintageId}/reviews":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/reviews':
     get:
       summary: List
       security:
@@ -3039,7 +3039,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3049,13 +3049,13 @@ paths:
                   reviews:
                     type: array
                     items:
-                      $ref: "#/components/schemas/WineVintageReview"
+                      $ref: '#/components/schemas/WineVintageReview'
                   continuationToken:
                     type: string
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -3069,13 +3069,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -3117,7 +3117,7 @@ paths:
                   type: number
                   format: double
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3125,18 +3125,18 @@ paths:
                 type: object
                 properties:
                   review:
-                    $ref: "#/components/schemas/WineVintageReview"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages/{vintageId}/reviews/recap":
+                    $ref: '#/components/schemas/WineVintageReview'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/reviews/recap':
     get:
       summary: Detail
       security:
@@ -3157,7 +3157,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -3170,12 +3170,12 @@ paths:
                 type: object
                 properties:
                   vintage:
-                    $ref: "#/components/schemas/WineVintageReviewRecap"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/wine/wines/{wineId}/vintages/{vintageId}/review":
+                    $ref: '#/components/schemas/WineVintageReviewRecap'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}/review':
     get:
       summary: Detail
       security:
@@ -3196,7 +3196,7 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -3209,11 +3209,11 @@ paths:
                 type: object
                 properties:
                   vintage:
-                    $ref: "#/components/schemas/WineVintageReview"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/WineVintageReview'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -3227,13 +3227,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -3277,7 +3277,7 @@ paths:
                   type: number
                   format: double
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3285,19 +3285,19 @@ paths:
                 type: object
                 properties:
                   review:
-                    $ref: "#/components/schemas/WineVintageReview"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/WineVintageReview'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -3311,13 +3311,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: wineId
@@ -3335,7 +3335,7 @@ paths:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -3346,18 +3346,18 @@ paths:
                     type: string
                     enum:
                       - Review deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /wine/wines/scan_label:
     post:
       summary: Scan wine by uploading a label
@@ -3372,13 +3372,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -3392,7 +3392,7 @@ paths:
               type: string
               format: binary
       responses:
-        "200":
+        '200':
           description: Object
           headers: null
           content:
@@ -3401,16 +3401,45 @@ paths:
                 type: object
                 properties:
                   best_match:
-                    $ref: "#/components/schemas/WineVintage"
+                    $ref: '#/components/schemas/WineVintage'
                   results:
                     type: array
                     items:
                       type: string
-                      pattern: "[a-fA-F0-9]{24}"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                      pattern: '[a-fA-F0-9]{24}'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /wine/wines/random:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - wines
+      operationId: getRandomWines
+      description: List a random set of wines
+      parameters:
+        - in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wines:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Wine'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /cantina/smart_bags:
     get:
       summary: List
@@ -3425,13 +3454,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: query
           name: page
@@ -3439,7 +3468,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3449,17 +3478,17 @@ paths:
                   smart_bags:
                     type: array
                     items:
-                      $ref: "#/components/schemas/SmartBag"
+                      $ref: '#/components/schemas/SmartBag'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -3473,13 +3502,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -3494,14 +3523,14 @@ paths:
               properties:
                 model:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 serial:
                   type: string
                 expiryDate:
                   type: string
                   format: date-time
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3509,16 +3538,16 @@ paths:
                 type: object
                 properties:
                   smart_bag:
-                    $ref: "#/components/schemas/SmartBag"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/smart_bags/{smartBagId}":
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{smartBagId}':
     get:
       summary: Detail
       security:
@@ -3532,22 +3561,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: smartBagId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -3560,15 +3589,15 @@ paths:
                 type: object
                 properties:
                   smart_bag:
-                    $ref: "#/components/schemas/SmartBag"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/SmartBag'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -3584,14 +3613,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3602,17 +3631,17 @@ paths:
                     type: string
                     enum:
                       - Smart Bag deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/smart_bags/{serial}/transfer_ownership":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/transfer_ownership':
     post:
       summary: Action
       security:
@@ -3626,22 +3655,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: serial
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3649,18 +3678,18 @@ paths:
                 type: object
                 properties:
                   smart_bag:
-                    $ref: "#/components/schemas/SmartBag"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/smart_bags/{serial}/fill_smart_bag":
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/fill_smart_bag':
     post:
       summary: Action
       security:
@@ -3674,20 +3703,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: serial
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -3699,9 +3728,9 @@ paths:
               properties:
                 vintage:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3709,18 +3738,18 @@ paths:
                 type: object
                 properties:
                   smart_bag:
-                    $ref: "#/components/schemas/SmartBag"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/smart_bags/{serial}/refill_smart_bag":
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/refill_smart_bag':
     post:
       summary: Action
       security:
@@ -3734,20 +3763,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: serial
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -3759,9 +3788,9 @@ paths:
               properties:
                 vintage:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3769,18 +3798,18 @@ paths:
                 type: object
                 properties:
                   smart_bag:
-                    $ref: "#/components/schemas/SmartBag"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/smart_bags/{serial}/set_custom_temperature":
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/set_custom_temperature':
     post:
       summary: Action
       security:
@@ -3794,20 +3823,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: serial
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -3820,7 +3849,7 @@ paths:
                 customTemperature:
                   type: number
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3828,17 +3857,17 @@ paths:
                 type: object
                 properties:
                   smart_bag:
-                    $ref: "#/components/schemas/SmartBag"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/SmartBag'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /cantina/bottles:
     get:
       summary: List
@@ -3853,13 +3882,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: query
           name: page
@@ -3867,7 +3896,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3877,17 +3906,17 @@ paths:
                   bottles:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Bottle"
+                      $ref: '#/components/schemas/Bottle'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -3901,13 +3930,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -3922,10 +3951,10 @@ paths:
                   properties:
                     model:
                       type: string
-                      pattern: "[a-fA-F0-9]{24}"
+                      pattern: '[a-fA-F0-9]{24}'
                     vintageId:
                       type: string
-                      pattern: "[a-fA-F0-9]{24}"
+                      pattern: '[a-fA-F0-9]{24}'
                 - type: object
                   required:
                     - model
@@ -3933,7 +3962,7 @@ paths:
                   properties:
                     model:
                       type: string
-                      pattern: "[a-fA-F0-9]{24}"
+                      pattern: '[a-fA-F0-9]{24}'
                     userVintage:
                       type: object
                       required:
@@ -3958,7 +3987,7 @@ paths:
                         temperature:
                           type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -3966,16 +3995,16 @@ paths:
                 type: object
                 properties:
                   bottle:
-                    $ref: "#/components/schemas/Bottle"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/bottles/{bottleId}":
+                    $ref: '#/components/schemas/Bottle'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/bottles/{bottleId}':
     get:
       summary: Detail
       security:
@@ -3989,22 +4018,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: bottleId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -4017,15 +4046,15 @@ paths:
                 type: object
                 properties:
                   bottle:
-                    $ref: "#/components/schemas/Bottle"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Bottle'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -4039,13 +4068,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: if-match
@@ -4057,9 +4086,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4070,17 +4099,17 @@ paths:
                     type: string
                     enum:
                       - Bottle deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/cantina/bottles/{bottleId}/turn_into_bag":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/bottles/{bottleId}/turn_into_bag':
     post:
       summary: Action
       security:
@@ -4094,20 +4123,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: bottleId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -4129,9 +4158,9 @@ paths:
                         type: number
                       serial:
                         type: string
-                        pattern: "[a-fA-F0-9]{24}"
+                        pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4142,16 +4171,16 @@ paths:
                     type: string
                     enum:
                       - Successfully trasformed into bags
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /dispenser/dispensers:
     get:
       summary: List
@@ -4166,13 +4195,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: query
           name: page
@@ -4180,7 +4209,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4190,17 +4219,17 @@ paths:
                   dispensers:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Dispenser"
+                      $ref: '#/components/schemas/Dispenser'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -4214,13 +4243,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
       requestBody:
         required: true
@@ -4243,7 +4272,7 @@ paths:
                 serial:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4251,16 +4280,16 @@ paths:
                 type: object
                 properties:
                   dispenser:
-                    $ref: "#/components/schemas/Dispenser"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}":
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}':
     get:
       summary: Detail
       security:
@@ -4274,22 +4303,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: dispenserId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -4302,15 +4331,15 @@ paths:
                 type: object
                 properties:
                   dispenser:
-                    $ref: "#/components/schemas/Dispenser"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Dispenser'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -4324,20 +4353,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: dispenserId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -4357,17 +4386,17 @@ paths:
                   properties:
                     chassis:
                       type: string
-                      pattern: "[a-fA-F0-9]{24}"
+                      pattern: '[a-fA-F0-9]{24}'
                     slot:
                       type: number
                 locationId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 roomId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4375,19 +4404,19 @@ paths:
                 type: object
                 properties:
                   dispenser:
-                    $ref: "#/components/schemas/Dispenser"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -4401,27 +4430,27 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: dispenserId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -4432,19 +4461,19 @@ paths:
                     type: string
                     enum:
                       - Dispenser deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/activate":
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/activate':
     post:
       summary: Action
       security:
@@ -4458,20 +4487,20 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: dispenserId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -4488,19 +4517,19 @@ paths:
                   properties:
                     chassis:
                       type: string
-                      pattern: "[a-fA-F0-9]{24}"
+                      pattern: '[a-fA-F0-9]{24}'
                     slot:
                       type: number
                 locationId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 roomId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 wifiName:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4508,16 +4537,16 @@ paths:
                 type: object
                 properties:
                   dispenser:
-                    $ref: "#/components/schemas/Dispenser"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/pour_wine":
+                    $ref: '#/components/schemas/Dispenser'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/pour_wine':
     post:
       summary: Action
       security:
@@ -4531,19 +4560,19 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - name: dispenserId
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -4558,7 +4587,7 @@ paths:
                     - drink
                     - taste
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4567,16 +4596,16 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/set_cooling_mode":
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/set_cooling_mode':
     post:
       summary: Action
       security:
@@ -4590,19 +4619,19 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - name: dispenserId
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -4618,7 +4647,7 @@ paths:
                     - boost
                     - silent
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4627,16 +4656,16 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/set_schedule":
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/set_schedule':
     post:
       summary: Action
       security:
@@ -4650,19 +4679,19 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - name: dispenserId
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -4675,7 +4704,7 @@ paths:
                   type: string
                   format: date-time
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4684,16 +4713,16 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/remove_schedule":
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/remove_schedule':
     post:
       summary: Action
       security:
@@ -4707,21 +4736,21 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - name: dispenserId
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4730,16 +4759,16 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/start_vacuum_bag":
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/start_vacuum_bag':
     post:
       summary: Action
       security:
@@ -4753,21 +4782,21 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - name: dispenserId
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4776,16 +4805,16 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/set_serving_temperature":
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/set_serving_temperature':
     post:
       summary: Action
       security:
@@ -4799,19 +4828,19 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - name: dispenserId
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -4823,7 +4852,7 @@ paths:
                   required: true
                   type: number
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4832,16 +4861,16 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/dispensers/{dispenserId}/toggle_parental_control":
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/toggle_parental_control':
     post:
       summary: Action
       security:
@@ -4855,22 +4884,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: dispenserId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "202":
+        '202':
           description: Object
           content:
             application/json:
@@ -4879,15 +4908,15 @@ paths:
                 properties:
                   jobId:
                     type: string
-                    pattern: "[a-fA-F0-9]{24}"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /dispenser/chassis:
     get:
       summary: List
@@ -4904,7 +4933,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4914,17 +4943,17 @@ paths:
                   chassis:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Chassis"
+                      $ref: '#/components/schemas/Chassis'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -4951,12 +4980,12 @@ paths:
                   type: number
                 locationId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
                 roomId:
                   type: string
-                  pattern: "[a-fA-F0-9]{24}"
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -4964,16 +4993,16 @@ paths:
                 type: object
                 properties:
                   chassis:
-                    $ref: "#/components/schemas/Chassis"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/chassis/{dispenserId}":
+                    $ref: '#/components/schemas/Chassis'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/chassis/{dispenserId}':
     get:
       summary: Detail
       security:
@@ -4988,9 +5017,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -5003,15 +5032,15 @@ paths:
                 type: object
                 properties:
                   chassis:
-                    $ref: "#/components/schemas/Chassis"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Chassis'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -5026,14 +5055,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -5044,18 +5073,18 @@ paths:
                     type: string
                     enum:
                       - Chassis deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "412":
-          $ref: "#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /dispenser/locations:
     get:
       summary: List
@@ -5072,7 +5101,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5082,17 +5111,17 @@ paths:
                   locations:
                     type: array
                     items:
-                      $ref: "#/components/schemas/DispenserLocation"
+                      $ref: '#/components/schemas/DispenserLocation'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -5113,7 +5142,7 @@ paths:
                 name:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5121,16 +5150,16 @@ paths:
                 type: object
                 properties:
                   chassis:
-                    $ref: "#/components/schemas/DispenserLocation"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/locations/{locationId}/rooms":
+                    $ref: '#/components/schemas/DispenserLocation'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/locations/{locationId}/rooms':
     get:
       summary: List
       security:
@@ -5144,14 +5173,14 @@ paths:
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         - in: query
           name: page
           required: false
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5161,17 +5190,17 @@ paths:
                   rooms:
                     type: array
                     items:
-                      $ref: "#/components/schemas/DispenserLocationRoom"
+                      $ref: '#/components/schemas/DispenserLocationRoom'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -5185,7 +5214,7 @@ paths:
           in: path
           require: true
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -5198,7 +5227,7 @@ paths:
                 name:
                   type: string
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5206,15 +5235,15 @@ paths:
                 type: object
                 properties:
                   room:
-                    $ref: "#/components/schemas/DispenserLocationRoom"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/DispenserLocationRoom'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /dispenser/jobs:
     get:
       summary: List
@@ -5229,13 +5258,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: query
           name: page
@@ -5243,7 +5272,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5253,18 +5282,18 @@ paths:
                   jobs:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Job"
+                      $ref: '#/components/schemas/Job'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser/jobs/{jobId}":
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/jobs/{jobId}':
     get:
       summary: Detail
       security:
@@ -5278,22 +5307,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: jobId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -5306,15 +5335,15 @@ paths:
                 type: object
                 properties:
                   job:
-                    $ref: "#/components/schemas/Job"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Job'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /dispenser/jobs/executed:
     get:
       summary: List
@@ -5329,13 +5358,13 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: query
           name: page
@@ -5343,7 +5372,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5353,18 +5382,18 @@ paths:
                   jobs:
                     type: array
                     items:
-                      $ref: "#/components/schemas/ExecutedJob"
+                      $ref: '#/components/schemas/ExecutedJob'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/dispenser//jobs/executed/{id}":
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser//jobs/executed/{id}':
     get:
       summary: Detail
       security:
@@ -5378,22 +5407,22 @@ paths:
           name: albi-current-company
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
           name: albi-current-location
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
           name: jobId
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -5406,15 +5435,15 @@ paths:
                 type: object
                 properties:
                   job:
-                    $ref: "#/components/schemas/ExecutedJob"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/ExecutedJob'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /app_settings/mobile_app_config/albi_sommelier:
     get:
       summary: AlbiSommelier config
@@ -5425,16 +5454,16 @@ paths:
       operationId: getAlbiSommelierConfig
       description: Get albi sommelier page configuration
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
               schema:
                 type: object
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /app_settings/mobile_app_config/home:
     get:
       summary: Home config
@@ -5445,16 +5474,16 @@ paths:
       operationId: getHomeConfig
       description: Get home page configuration
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
               schema:
                 type: object
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /app_settings/mobile_app_config/search:
     get:
       summary: Search config
@@ -5465,16 +5494,16 @@ paths:
       operationId: getSearchConfig
       description: Get search page configuration
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
               schema:
                 type: object
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /roles:
     get:
       summary: List
@@ -5491,7 +5520,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5501,17 +5530,17 @@ paths:
                   roles:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Role"
+                      $ref: '#/components/schemas/Role'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     post:
       summary: Create
       security:
@@ -5545,7 +5574,7 @@ paths:
                     properties:
                       id:
                         type: string
-                        pattern: "[a-fA-F0-9]{24}"
+                        pattern: '[a-fA-F0-9]{24}'
                       createPermission:
                         type: boolean
                       readPermission:
@@ -5555,7 +5584,7 @@ paths:
                       deletePermission:
                         type: boolean
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5563,8 +5592,8 @@ paths:
                 type: object
                 properties:
                   role:
-                    $ref: "#/components/schemas/Role"
-        "400":
+                    $ref: '#/components/schemas/Role'
+        '400':
           name: BadRequestError
           description: Error on request body
           content:
@@ -5578,13 +5607,13 @@ paths:
                       - BadRequestError
                   error_message:
                     type: string
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/roles/{roleId}":
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/roles/{roleId}':
     get:
       summary: Detail
       security:
@@ -5599,9 +5628,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -5614,15 +5643,15 @@ paths:
                 type: object
                 properties:
                   role:
-                    $ref: "#/components/schemas/Role"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Role'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     patch:
       summary: Edit
       security:
@@ -5637,7 +5666,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
@@ -5665,7 +5694,7 @@ paths:
                     properties:
                       id:
                         type: string
-                        pattern: "[a-fA-F0-9]{24}"
+                        pattern: '[a-fA-F0-9]{24}'
                       createPermission:
                         type: boolean
                       readPermission:
@@ -5675,7 +5704,7 @@ paths:
                       deletePermission:
                         type: boolean
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5683,17 +5712,17 @@ paths:
                 type: object
                 properties:
                   role:
-                    $ref: "#/components/schemas/Role"
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/Role'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
     delete:
       summary: Delete
       security:
@@ -5708,14 +5737,14 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         - in: header
           name: if-match
           schema:
             type: string
           required: true
       responses:
-        "201":
+        '201':
           description: Object
           content:
             application/json:
@@ -5726,16 +5755,16 @@ paths:
                     type: string
                     enum:
                       - Role deleted
-        "400":
-          $ref: "#/paths/~1roles/post/responses/400"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /roles/blocks:
     get:
       summary: List
@@ -5752,7 +5781,7 @@ paths:
           schema:
             type: integer
       responses:
-        "200":
+        '200':
           description: Object
           content:
             application/json:
@@ -5762,18 +5791,18 @@ paths:
                   blocks:
                     type: array
                     items:
-                      $ref: "#/components/schemas/RoleBlock"
+                      $ref: '#/components/schemas/RoleBlock'
                   page:
                     type: integer
                   pages:
                     type: integer
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
-  "/roles/blocks/{blockId}":
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/roles/blocks/{blockId}':
     get:
       summary: Detail
       security:
@@ -5788,9 +5817,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
       responses:
-        "200":
+        '200':
           description: Object
           headers:
             etag:
@@ -5803,15 +5832,15 @@ paths:
                 type: object
                 properties:
                   block:
-                    $ref: "#/components/schemas/RoleBlock"
-        "401":
-          $ref: "#/paths/~1users/get/responses/401"
-        "403":
-          $ref: "#/paths/~1users/get/responses/403"
-        "404":
-          $ref: "#/paths/~1users~1%7BuserId%7D/get/responses/404"
-        "500":
-          $ref: "#/paths/~1users/get/responses/500"
+                    $ref: '#/components/schemas/RoleBlock'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
 components:
   securitySchemes:
     Authorization:
@@ -5834,7 +5863,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
           description: Mongoose db id
         cognitoId:
           type: string
@@ -5854,7 +5883,7 @@ components:
               type: date-time
         provider:
           type: string
-          description: "if user login via social (ex Google, Facebook...)"
+          description: 'if user login via social (ex Google, Facebook...)'
         email:
           type: string
           format: email
@@ -5896,7 +5925,7 @@ components:
           type: array
           items:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         profiling:
           type: object
     UserCompanyAccess:
@@ -5908,16 +5937,16 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         company:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         location:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         role:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         profiling:
           type: object
     UserStat:
@@ -5960,7 +5989,7 @@ components:
           type: array
           items:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
     UserWishListShared:
       type: object
       required:
@@ -5970,15 +5999,15 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         vintages:
           type: array
           items:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
         owner:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdAt:
           type: string
           format: date-time
@@ -6000,7 +6029,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         type:
           type: string
           enum:
@@ -6032,7 +6061,7 @@ components:
           format: uri
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdAt:
           type: string
           format: date-time
@@ -6057,7 +6086,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         isLocationEnabled:
@@ -6076,7 +6105,7 @@ components:
           type: array
           items:
             type: string
-            pattern: "[a-fA-F0-9]{24}"
+            pattern: '[a-fA-F0-9]{24}'
     WineContainer:
       type: object
       required:
@@ -6086,7 +6115,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         type:
           type: string
           enum:
@@ -6109,7 +6138,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         winery:
@@ -6126,18 +6155,18 @@ components:
           type: integer
         location:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         label:
           type: string
           format: uri
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createAt:
           type: string
         updatedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         updatedAt:
           type: string
     Wine:
@@ -6160,7 +6189,7 @@ components:
           type: string
         wineryId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         description:
@@ -6214,13 +6243,13 @@ components:
           type: boolean
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdAt:
           type: string
           format: date-time
         updatedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         updatedAt:
           type: string
           format: date-time
@@ -6242,10 +6271,10 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         wineId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         year:
           type: number
         yearDetails:
@@ -6276,13 +6305,13 @@ components:
           type: boolean
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdAt:
           type: string
           format: date-time
         updatedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         updatedAt:
           type: string
           format: date-time
@@ -6301,13 +6330,13 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         vintageId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         ownerId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         description:
           type: string
         rating:
@@ -6329,13 +6358,13 @@ components:
           format: double
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdAt:
           type: string
           format: date-time
         updatedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         updatedAt:
           type: string
           format: date-time
@@ -6356,7 +6385,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         rating1:
           type: integer
         rating2:
@@ -6393,19 +6422,19 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         model:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         vintageId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         ownerId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
     SmartBag:
       type: object
       required:
@@ -6419,19 +6448,19 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         model:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         vintageId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         ownerId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         type:
           type: string
           enum:
@@ -6465,7 +6494,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         blockName:
           type: string
         regex:
@@ -6481,12 +6510,12 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         companyId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         permissions:
           type: array
           items:
@@ -6500,7 +6529,7 @@ components:
             properties:
               blockId:
                 type: string
-                pattern: "[a-fA-F0-9]{24}"
+                pattern: '[a-fA-F0-9]{24}'
               createPermission:
                 type: boolean
               readPermission:
@@ -6511,13 +6540,13 @@ components:
                 type: boolean
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         createdAt:
           type: string
           format: date-time
         updatedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         updatedAt:
           type: string
           format: date-time
@@ -6535,10 +6564,10 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         ownerId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         model:
@@ -6571,30 +6600,30 @@ components:
           type: Date
         pairedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         chassis:
           type: object
           properties:
             chassis:
               type: string
-              pattern: "[a-fA-F0-9]{24}"
+              pattern: '[a-fA-F0-9]{24}'
             slot:
               type: number
         parentalControl:
           type: boolean
         locationId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         roomId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         roomTemperature:
           type: number
         wineTemperature:
           type: number
         bagId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
     Chassis:
       type: object
       required:
@@ -6609,26 +6638,26 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         totalSlots:
           type: number
         createdBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         updatedBy:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         ownerId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         locationId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         roomId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
     DispenserLocation:
       type: object
       required:
@@ -6638,12 +6667,12 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
         ownerId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
     DispenserLocationRoom:
       type: object
       required:
@@ -6652,7 +6681,7 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         name:
           type: string
     Job:
@@ -6667,15 +6696,15 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         timestamp:
           type: Date
         userId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         dispenserId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         httpRequest:
           type: object
           properties:
@@ -6711,15 +6740,15 @@ components:
       properties:
         _id:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         timestamp:
           type: Date
         userId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         dispenserId:
           type: string
-          pattern: "[a-fA-F0-9]{24}"
+          pattern: '[a-fA-F0-9]{24}'
         httpRequest:
           type: object
           properties:
