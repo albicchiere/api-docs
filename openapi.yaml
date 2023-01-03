@@ -4389,9 +4389,6 @@ paths:
                       pattern: '[a-fA-F0-9]{24}'
                     slot:
                       type: number
-                locationId:
-                  type: string
-                  pattern: '[a-fA-F0-9]{24}'
                 roomId:
                   type: string
                   pattern: '[a-fA-F0-9]{24}'
@@ -4520,9 +4517,6 @@ paths:
                       pattern: '[a-fA-F0-9]{24}'
                     slot:
                       type: number
-                locationId:
-                  type: string
-                  pattern: '[a-fA-F0-9]{24}'
                 roomId:
                   type: string
                   pattern: '[a-fA-F0-9]{24}'
@@ -4971,16 +4965,12 @@ paths:
               required:
                 - name
                 - totalSlots
-                - locationId
                 - roomId
               properties:
                 name:
                   type: string
                 totalSlots:
                   type: number
-                locationId:
-                  type: string
-                  pattern: '[a-fA-F0-9]{24}'
                 roomId:
                   type: string
                   pattern: '[a-fA-F0-9]{24}'
@@ -5085,100 +5075,33 @@ paths:
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  /dispenser/locations:
+  /dispenser/rooms:
     get:
       summary: List
       security:
         - Authorization: []
       tags:
-        - dispenser_locations
-      operationId: getAllLocations
-      description: List all loactions
-      parameters:
-        - in: query
-          name: page
-          required: false
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Object
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  locations:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/DispenserLocation'
-                  page:
-                    type: integer
-                  pages:
-                    type: integer
-        '401':
-          $ref: '#/paths/~1users/get/responses/401'
-        '403':
-          $ref: '#/paths/~1users/get/responses/403'
-        '500':
-          $ref: '#/paths/~1users/get/responses/500'
-    post:
-      summary: Create
-      security:
-        - Authorization: []
-      tags:
-        - dispenser_locations
-      operationId: createLocation
-      description: Create a new location
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - name
-              properties:
-                name:
-                  type: string
-      responses:
-        '200':
-          description: Object
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  chassis:
-                    $ref: '#/components/schemas/DispenserLocation'
-        '400':
-          $ref: '#/paths/~1roles/post/responses/400'
-        '401':
-          $ref: '#/paths/~1users/get/responses/401'
-        '403':
-          $ref: '#/paths/~1users/get/responses/403'
-        '500':
-          $ref: '#/paths/~1users/get/responses/500'
-  '/dispenser/locations/{locationId}/rooms':
-    get:
-      summary: List
-      security:
-        - Authorization: []
-      tags:
-        - dispenser_locations
+        - dispenser_rooms
       operationId: getAllRooms
       description: List all rooms
       parameters:
-        - name: locationId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
         - in: query
           name: page
           required: false
           schema:
             type: integer
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
       responses:
         '200':
           description: Object
@@ -5190,7 +5113,7 @@ paths:
                   rooms:
                     type: array
                     items:
-                      $ref: '#/components/schemas/DispenserLocationRoom'
+                      $ref: '#/components/schemas/DispenserRoom'
                   page:
                     type: integer
                   pages:
@@ -5206,15 +5129,22 @@ paths:
       security:
         - Authorization: []
       tags:
-        - dispenser_locations
+        - dispenser_rooms
       operationId: createRoom
       description: Create a new room
       parameters:
-        - name: locationId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
       requestBody:
         required: true
         content:
@@ -5235,13 +5165,183 @@ paths:
                 type: object
                 properties:
                   room:
-                    $ref: '#/components/schemas/DispenserLocationRoom'
+                    $ref: '#/components/schemas/DispenserRoom'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
           $ref: '#/paths/~1users/get/responses/401'
         '403':
           $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/rooms/{roomId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_rooms
+      operationId: getRoom
+      description: Get details about room
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_vintage:
+                    $ref: '#/components/schemas/DispenserRoom'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_rooms
+      operationId: editRoom
+      description: Update room
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_vintage:
+                    $ref: '#/components/schemas/DispenserRoom'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - dispenser_rooms
+      operationId: deleteRoom
+      description: Delete Room
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: roomId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Room deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '412':
+          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/jobs:
@@ -6133,9 +6233,6 @@ components:
         - year
         - wineColor
         - temperature
-        - region
-        - grapes
-        - alcohol
         - createdBy
         - updatedBy
       properties:
@@ -6156,14 +6253,6 @@ components:
             - rose
         temperature:
           type: integer
-        region:
-          type: string
-        grapes:
-          type: array
-          items:
-            type: string
-        alcohol:
-          type: number
         location:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -6622,9 +6711,6 @@ components:
               type: number
         parentalControl:
           type: boolean
-        locationId:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
         roomId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -6644,7 +6730,6 @@ components:
         - createdBy
         - updatedBy
         - ownerId
-        - locationId
         - roomId
       properties:
         _id:
@@ -6663,13 +6748,10 @@ components:
         ownerId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
-        locationId:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
         roomId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
-    DispenserLocation:
+    DispenserRoom:
       type: object
       required:
         - _id
@@ -6684,17 +6766,6 @@ components:
         ownerId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
-    DispenserLocationRoom:
-      type: object
-      required:
-        - _id
-        - name
-      properties:
-        _id:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
-        name:
-          type: string
     Job:
       type: object
       required:
