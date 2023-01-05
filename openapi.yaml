@@ -4503,25 +4503,34 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - wifiName
-              properties:
-                name:
-                  type: string
-                chassis:
-                  type: object
+              oneOf:
+                - type: object
+                  required:
+                    - wifiName
                   properties:
-                    chassis:
+                    name:
+                      type: string
+                    roomId:
                       type: string
                       pattern: '[a-fA-F0-9]{24}'
-                    slot:
-                      type: number
-                roomId:
-                  type: string
-                  pattern: '[a-fA-F0-9]{24}'
-                wifiName:
-                  type: string
+                    wifiName:
+                      type: string
+                - type: object
+                  required:
+                    - wifiName
+                  properties:
+                    name:
+                      type: string
+                    chassis:
+                      type: object
+                      properties:
+                        chassisId:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        slot:
+                          type: number
+                    wifiName:
+                      type: string
       responses:
         '200':
           description: Object
@@ -4789,62 +4798,6 @@ paths:
           require: true
           type: string
           pattern: '[a-fA-F0-9]{24}'
-      responses:
-        '202':
-          description: Object
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  jobId:
-                    type: string
-                    pattern: '[a-fA-F0-9]{24}'
-        '400':
-          $ref: '#/paths/~1roles/post/responses/400'
-        '401':
-          $ref: '#/paths/~1users/get/responses/401'
-        '403':
-          $ref: '#/paths/~1users/get/responses/403'
-        '500':
-          $ref: '#/paths/~1users/get/responses/500'
-  '/dispenser/dispensers/{dispenserId}/set_serving_temperature':
-    post:
-      summary: Action
-      security:
-        - Authorization: []
-      tags:
-        - dispensers
-      operationId: setServingTemperature
-      description: Set the dispenser serving temperature
-      parameters:
-        - in: header
-          name: albi-current-company
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
-          required: false
-        - in: header
-          name: albi-current-location
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
-          required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                temperature:
-                  required: true
-                  type: number
       responses:
         '202':
           description: Object
