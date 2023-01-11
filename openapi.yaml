@@ -1183,10 +1183,10 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          image/jpeg:
             schema:
               type: string
-              format: byte
+              format: binary
       responses:
         '200':
           description: Object
@@ -2622,7 +2622,7 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  '/wine/wines/{wineId}/vintages/{vintageId}':
+  '/wine/wines/vintages/{vintageId}':
     get:
       summary: Detail
       security:
@@ -2632,11 +2632,6 @@ paths:
       operationId: getWineVintage
       description: Get details about wine vintage
       parameters:
-        - in: path
-          name: wineId
-          required: true
-          schema:
-            type: string
         - in: path
           name: vintageId
           required: true
@@ -2661,6 +2656,7 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  '/wine/wines/{wineId}/vintages/{vintageId}':
     patch:
       summary: Edit
       security:
@@ -2786,40 +2782,6 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
-        '500':
-          $ref: '#/paths/~1users/get/responses/500'
-  '/wine/wines/vintages/{vintageId}':
-    get:
-      summary: Detail
-      security:
-        - Authorization: []
-      tags:
-        - wines
-      operationId: getWineVintage
-      description: Get details about wine vintage
-      parameters:
-        - in: path
-          name: vintageId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Object
-          headers:
-            etag:
-              schema:
-                type: string
-                description: This header is an identifier for a specific version of a resource.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  vintage:
-                    $ref: '#/components/schemas/WineVintage'
-        '404':
-          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/label':
@@ -4267,6 +4229,8 @@ paths:
                   enum:
                     - home
                     - pro
+                macAddress:
+                  type: string
                 firmware:
                   type: string
                 serial:
@@ -4845,6 +4809,52 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '202':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/dispenser/dispensers/{dispenserId}/get_data':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - dispensers
+      operationId: getDispenserData
+      description: Requests dispenser for up-to-date data
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - name: dispenserId
+          in: path
+          require: true
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
       responses:
         '202':
           description: Object
@@ -5446,7 +5456,7 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  '/dispenser//jobs/executed/{id}':
+  '/dispenser/jobs/executed/{jobId}':
     get:
       summary: Detail
       security:
@@ -6638,11 +6648,13 @@ components:
           type: string
         batteryStatus:
           type: string
-        status:
-          type: string
           enum:
-            - online
-            - offline
+            - empty
+            - low
+            - half
+            - full
+            - charging
+            - plugged
         mode:
           type: string
           enum:
