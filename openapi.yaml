@@ -4457,11 +4457,10 @@ paths:
             pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: path
-          name: dispenserId
+          name: serial
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
