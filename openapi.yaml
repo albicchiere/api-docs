@@ -1121,6 +1121,12 @@ paths:
       description: List all user locations
       parameters:
         - in: query
+          name: company
+          required: false
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: query
           name: page
           required: false
           schema:
@@ -3603,6 +3609,57 @@ paths:
           $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  '/cantina/smart_bags/{serial}/check_nfc':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - smart_bags
+      operationId: checkSmartBagNFC
+      description: Check smart bag using it's NFC serial
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: path
+          name: serial
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  smart_bag:
+                    $ref: '#/components/schemas/SmartBag'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1users~1%7BuserId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/transfer_ownership':
     post:
       summary: Action
@@ -4461,6 +4518,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
