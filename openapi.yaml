@@ -4491,7 +4491,7 @@ paths:
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  '/dispenser/dispensers/{dispenserId}/activate':
+  '/dispenser/dispensers/{serial}/activate':
     post:
       summary: Action
       security:
