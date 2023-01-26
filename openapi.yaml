@@ -4518,7 +4518,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
+            # pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
