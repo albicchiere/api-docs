@@ -10,6 +10,7 @@ info:
     email: support@albicchiere.com
 servers:
   - url: 'https://api-staging.albitest.ml'
+  - url: 'https://api.albitest.ml'
 paths:
   /companies:
     get:
@@ -1120,12 +1121,6 @@ paths:
       operationId: getUserCompanyAccesss
       description: List all user locations
       parameters:
-        - in: query
-          name: company
-          required: false
-          schema:
-            type: string
-            pattern: '[a-fA-F0-9]{24}'
         - in: query
           name: page
           required: false
@@ -3636,7 +3631,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -4518,7 +4512,6 @@ paths:
           required: true
           schema:
             type: string
-            # pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
