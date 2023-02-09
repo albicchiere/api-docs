@@ -1041,6 +1041,8 @@ paths:
             schema:
               type: object
               properties:
+                email:
+                  type: string
                 name:
                   type: string
                 lastName:
@@ -1055,6 +1057,61 @@ paths:
                   format: date
                 birthplace:
                   type: string
+                nationality:
+                  type: string
+                locale:
+                  type: string
+                measure:
+                  type: string
+                  enum:
+                    - metric
+                    - imperial
+                dateFormat:
+                  type: string
+                  enum:
+                    - metric
+                    - imperial
+                hourFormat:
+                  type: string
+                  enum:
+                    - '12'
+                    - '24'
+                policyConsent:
+                  type: object
+                  required:
+                    - consent
+                  properties:
+                    consent:
+                      type: boolean
+                      default: true
+                marketingConsent:
+                  type: object
+                  properties:
+                    consent:
+                      type: boolean
+                notifications:
+                  type: object
+                  properties:
+                    general:
+                      type: object
+                      required:
+                        - app
+                        - email
+                      properties:
+                        app:
+                          type: boolean
+                        email:
+                          type: boolean
+                    devices:
+                      type: object
+                      required:
+                        - app
+                        - email
+                      properties:
+                        app:
+                          type: boolean
+                        email:
+                          type: boolean
       responses:
         '200':
           description: Object
@@ -1067,6 +1124,30 @@ paths:
                     $ref: '#/components/schemas/User'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: deleteUserMe
+      description: Request admins for user deletion
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
         '401':
           $ref: '#/paths/~1users/get/responses/401'
         '403':
@@ -6125,7 +6206,7 @@ components:
         birthday:
           type: string
           format: date
-        birthplace:
+        nationality:
           type: string
         policyConsent:
           type: object
@@ -6141,6 +6222,29 @@ components:
           properties:
             consent:
               type: boolean
+        notifications:
+          type: object
+          properties:
+            general:
+              type: object
+              properties:
+                app:
+                  type: boolean
+                email:
+                  type: boolean
+            devices:
+              type: object
+              properties:
+                app:
+                  type: boolean
+                email:
+                  type: boolean
+            updatedAt:
+              type: string
+              format: date-time
+            createdAt:
+              type: string
+              format: date-time
         createdAt:
           type: string
           format: date-time
