@@ -3734,7 +3734,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -3785,7 +3784,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -3833,7 +3831,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -3893,7 +3890,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -3953,7 +3949,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
