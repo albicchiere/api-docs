@@ -1055,8 +1055,6 @@ paths:
                 birthday:
                   type: string
                   format: date
-                birthplace:
-                  type: string
                 nationality:
                   type: string
                 locale:
@@ -2441,22 +2439,6 @@ paths:
                   type: array
                   items:
                     type: string
-                moods:
-                  type: array
-                  items:
-                    type: string
-                pairings:
-                  type: array
-                  items:
-                    type: string
-                allergens:
-                  type: array
-                  items:
-                    type: string
-                philosophy:
-                  type: array
-                  items:
-                    type: string
       responses:
         '200':
           description: Object
@@ -2816,6 +2798,45 @@ paths:
               properties:
                 temperature:
                   type: number
+                alcohol:
+                  type: number
+                moods:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - icon
+                    properties:
+                      name:
+                        type: string
+                      icon:
+                        type: string
+                pairings:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - icon
+                    properties:
+                      name:
+                        type: string
+                      icon:
+                        type: string
+                      match:
+                        type: string
+                        enum:
+                          - good
+                          - perfect
+                allergens:
+                  type: array
+                  items:
+                    type: string
+                philosophy:
+                  type: array
+                  items:
+                    type: string
       responses:
         '200':
           description: Object
@@ -3602,6 +3623,7 @@ paths:
                   pattern: '[a-fA-F0-9]{24}'
                 serial:
                   type: string
+                  pattern: '[A-F0-9]{16}'
                 expiryDate:
                   type: string
                   format: date-time
@@ -3744,6 +3766,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -3794,6 +3817,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -3841,6 +3865,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -3900,6 +3925,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -3959,6 +3985,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -4108,6 +4135,14 @@ paths:
                             - rose
                         temperature:
                           type: integer
+                        region:
+                          type: string
+                        grapes:
+                          type: array
+                          items:
+                            type: string
+                        alcohol:
+                          type: number
       responses:
         '200':
           description: Object
@@ -4280,7 +4315,7 @@ paths:
                         type: number
                       serial:
                         type: string
-                        pattern: '[a-fA-F0-9]{24}'
+                        pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -6504,6 +6539,14 @@ components:
         label:
           type: string
           format: uri
+        region:
+          type: string
+        grapes:
+          type: array
+          items:
+            type: string
+        alcohol:
+          type: number
         createdBy:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -6643,6 +6686,11 @@ components:
                 type: string
               icon:
                 type: string
+              match:
+                type: string
+                enum:
+                  - good
+                  - perfect
         allergens:
           type: array
           items:
@@ -6849,6 +6897,7 @@ components:
             - empty
         serial:
           type: string
+          pattern: '[A-F0-9]{16}'
         quantityLeft:
           type: number
         customTemperature:
