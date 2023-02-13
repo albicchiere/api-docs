@@ -1112,6 +1112,16 @@ paths:
                           type: boolean
                         email:
                           type: boolean
+                nation:
+                  type: string
+                  pattern: '[A-Z]{3}'
+                coordinates:
+                  type: object
+                  properties:
+                    lat:
+                      type: number
+                    lng:
+                      type: number
       responses:
         '200':
           description: Object
@@ -6240,6 +6250,16 @@ components:
             createdAt:
               type: string
               format: date-time
+        nation:
+          type: string
+          pattern: '[A-Z]{3}'
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
         createdAt:
           type: string
           format: date-time
