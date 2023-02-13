@@ -6547,38 +6547,6 @@ components:
                 type: string
               id:
                 type: string
-        moods:
-          type: array
-          items:
-            type: object
-            required:
-              - name
-              - icon
-            properties:
-              name:
-                type: string
-              icon:
-                type: string
-        pairings:
-          type: array
-          items:
-            type: object
-            required:
-              - name
-              - icon
-            properties:
-              name:
-                type: string
-              icon:
-                type: string
-        allergens:
-          type: array
-          items:
-            type: string
-        philosophy:
-          type: array
-          items:
-            type: string
         status:
           type: string
           enum:
@@ -6631,12 +6599,59 @@ components:
           type: number
         temperature:
           type: integer
-        label:
-          type: string
-        images:
+        moods:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - icon
+            properties:
+              name:
+                type: string
+              icon:
+                type: string
+        pairings:
+          type: array
+          items:
+            type: object
+            required:
+              - name
+              - icon
+            properties:
+              name:
+                type: string
+              icon:
+                type: string
+        allergens:
           type: array
           items:
             type: string
+        philosophy:
+          type: array
+          items:
+            type: string
+        images:
+          type: object
+          properties:
+            bottle:
+              type: object
+              properties:
+                default:
+                  type: string
+            label:
+              type: object
+              properties:
+                default:
+                  type: string
+                dispenser:
+                  type: string
+                smartbag:
+                  type: string
+            others:
+              type: array
+              items:
+                type: string
         awards:
           type: array
           items:
