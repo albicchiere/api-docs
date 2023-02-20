@@ -184,7 +184,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -260,7 +260,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -307,7 +307,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/companies/{companyId}/addresses':
@@ -352,7 +352,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     post:
@@ -476,7 +476,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -555,7 +555,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -674,7 +674,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     post:
@@ -739,7 +739,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/companies/{companyId}/user_accesses/{accessId}':
@@ -796,7 +796,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -867,7 +867,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -1211,6 +1211,12 @@ paths:
       description: List all user locations
       parameters:
         - in: query
+          name: company
+          required: false
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: query
           name: page
           required: false
           schema:
@@ -1236,7 +1242,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /users/me/image:
@@ -1399,7 +1405,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/users/{userId}':
@@ -1438,7 +1444,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /users/me/wishlist:
@@ -1569,7 +1575,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /users/me/wishlist/share:
@@ -1773,7 +1779,19 @@ paths:
                         createdAt:
                           type: string
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          name: NotFoundError
+          description: Element with requested uuid not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error_name:
+                    type: string
+                    enum:
+                      - NotFoundError
+                  error_message:
+                    type: string
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/wine_container_models:
@@ -1906,7 +1924,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -1956,7 +1974,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -1998,7 +2016,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/user_vintages:
@@ -2098,7 +2116,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -2171,7 +2189,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -2227,7 +2245,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -2289,7 +2307,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/wines:
@@ -2439,6 +2457,22 @@ paths:
                   type: array
                   items:
                     type: string
+                moods:
+                  type: array
+                  items:
+                    type: string
+                pairings:
+                  type: array
+                  items:
+                    type: string
+                allergens:
+                  type: array
+                  items:
+                    type: string
+                philosophy:
+                  type: array
+                  items:
+                    type: string
       responses:
         '200':
           description: Object
@@ -2488,7 +2522,7 @@ paths:
                   wine:
                     $ref: '#/components/schemas/Wine'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -2548,7 +2582,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           name: Cognito Unauthorized
           description: Endpoint reachable only after authentication with cognito
@@ -2599,7 +2633,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -2641,7 +2675,7 @@ paths:
                   pages:
                     type: integer
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     post:
@@ -2715,7 +2749,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/vintages/{vintageId}':
@@ -2749,7 +2783,7 @@ paths:
                   vintage:
                     $ref: '#/components/schemas/WineVintage'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}':
@@ -2798,45 +2832,6 @@ paths:
               properties:
                 temperature:
                   type: number
-                alcohol:
-                  type: number
-                moods:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - name
-                      - icon
-                    properties:
-                      name:
-                        type: string
-                      icon:
-                        type: string
-                pairings:
-                  type: array
-                  items:
-                    type: object
-                    required:
-                      - name
-                      - icon
-                    properties:
-                      name:
-                        type: string
-                      icon:
-                        type: string
-                      match:
-                        type: string
-                        enum:
-                          - good
-                          - perfect
-                allergens:
-                  type: array
-                  items:
-                    type: string
-                philosophy:
-                  type: array
-                  items:
-                    type: string
       responses:
         '200':
           description: Object
@@ -2854,7 +2849,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -2914,7 +2909,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -2981,7 +2976,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/image/{fileName}':
@@ -3051,7 +3046,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -3107,7 +3102,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/reviews':
@@ -3150,7 +3145,7 @@ paths:
                   continuationToken:
                     type: string
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     post:
@@ -3230,7 +3225,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/reviews/recap':
@@ -3269,7 +3264,7 @@ paths:
                   vintage:
                     $ref: '#/components/schemas/WineVintageReviewRecap'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/review':
@@ -3308,7 +3303,7 @@ paths:
                   vintage:
                     $ref: '#/components/schemas/WineVintageReview'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -3390,7 +3385,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -3450,7 +3445,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -3505,7 +3500,7 @@ paths:
                       type: string
                       pattern: '[a-fA-F0-9]{24}'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/wines/random:
@@ -3623,7 +3618,6 @@ paths:
                   pattern: '[a-fA-F0-9]{24}'
                 serial:
                   type: string
-                  pattern: '[A-F0-9]{16}'
                 expiryDate:
                   type: string
                   format: date-time
@@ -3693,7 +3687,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -3736,7 +3730,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/check_nfc':
@@ -3766,7 +3760,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -3787,7 +3780,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/transfer_ownership':
@@ -3817,7 +3810,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -3835,7 +3827,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/fill_smart_bag':
@@ -3865,7 +3857,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -3895,7 +3886,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/refill_smart_bag':
@@ -3925,7 +3916,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -3955,7 +3945,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/set_custom_temperature':
@@ -3985,7 +3975,6 @@ paths:
           required: true
           schema:
             type: string
-            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -4014,7 +4003,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /cantina/bottles:
@@ -4135,14 +4124,6 @@ paths:
                             - rose
                         temperature:
                           type: integer
-                        region:
-                          type: string
-                        grapes:
-                          type: array
-                          items:
-                            type: string
-                        alcohol:
-                          type: number
       responses:
         '200':
           description: Object
@@ -4209,7 +4190,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -4263,7 +4244,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/bottles/{bottleId}/turn_into_bag':
@@ -4315,7 +4296,7 @@ paths:
                         type: number
                       serial:
                         type: string
-                        pattern: '[A-F0-9]{16}'
+                        pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -4335,7 +4316,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/dispensers:
@@ -4496,7 +4477,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -4568,7 +4549,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -4624,7 +4605,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -5185,7 +5166,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -5227,7 +5208,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -5379,7 +5360,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -5440,7 +5421,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -5496,7 +5477,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '412':
           $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
         '500':
@@ -5598,7 +5579,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/jobs/executed:
@@ -5698,7 +5679,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /app_settings/mobile_app_config/albi_sommelier:
@@ -5718,7 +5699,7 @@ paths:
               schema:
                 type: object
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /app_settings/mobile_app_config/home:
@@ -5738,7 +5719,7 @@ paths:
               schema:
                 type: object
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /app_settings/mobile_app_config/search:
@@ -5758,10 +5739,10 @@ paths:
               schema:
                 type: object
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  /wine_setting:
+  /app_settings/wine_setting:
     get:
       summary: Detail
       security:
@@ -5836,19 +5817,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          name: NotFoundError
-          description: Element with requested uuid not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error_name:
-                    type: string
-                    enum:
-                      - NotFoundError
-                  error_message:
-                    type: string
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /roles:
@@ -5996,7 +5965,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     patch:
@@ -6067,7 +6036,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -6109,7 +6078,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /roles/blocks:
@@ -6185,7 +6154,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '404':
-          $ref: '#/paths/~1wine_setting/get/responses/404'
+          $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
 components:
@@ -6539,14 +6508,6 @@ components:
         label:
           type: string
           format: uri
-        region:
-          type: string
-        grapes:
-          type: array
-          items:
-            type: string
-        alcohol:
-          type: number
         createdBy:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -6686,11 +6647,6 @@ components:
                 type: string
               icon:
                 type: string
-              match:
-                type: string
-                enum:
-                  - good
-                  - perfect
         allergens:
           type: array
           items:
@@ -6897,7 +6853,6 @@ components:
             - empty
         serial:
           type: string
-          pattern: '[A-F0-9]{16}'
         quantityLeft:
           type: number
         customTemperature:
