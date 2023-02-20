@@ -4124,6 +4124,14 @@ paths:
                             - rose
                         temperature:
                           type: integer
+                        region:
+                          type: string
+                        grapes:
+                          type: array
+                          items:
+                            type: string
+                        alcohol:
+                          type: number
       responses:
         '200':
           description: Object
@@ -6502,6 +6510,14 @@ components:
             - rose
         temperature:
           type: integer
+        region:
+          type: string
+        grapes:
+          type: array
+          items:
+            type: string
+        alcohol:
+          type: number
         location:
           type: string
           pattern: '[a-fA-F0-9]{24}'
