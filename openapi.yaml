@@ -11,6 +11,7 @@ info:
 servers:
   - url: 'https://api-staging.albitest.ml'
   - url: 'https://api-dev.albicchiere.com'
+  - url: 'https://api-beta.albicchiere.com'
 paths:
   /companies:
     get:
@@ -2457,22 +2458,6 @@ paths:
                   type: array
                   items:
                     type: string
-                moods:
-                  type: array
-                  items:
-                    type: string
-                pairings:
-                  type: array
-                  items:
-                    type: string
-                allergens:
-                  type: array
-                  items:
-                    type: string
-                philosophy:
-                  type: array
-                  items:
-                    type: string
       responses:
         '200':
           description: Object
@@ -2832,6 +2817,45 @@ paths:
               properties:
                 temperature:
                   type: number
+                alcohol:
+                  type: number
+                moods:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - icon
+                    properties:
+                      name:
+                        type: string
+                      icon:
+                        type: string
+                pairings:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - icon
+                    properties:
+                      name:
+                        type: string
+                      icon:
+                        type: string
+                      match:
+                        type: string
+                        enum:
+                          - good
+                          - perfect
+                allergens:
+                  type: array
+                  items:
+                    type: string
+                philosophy:
+                  type: array
+                  items:
+                    type: string
       responses:
         '200':
           description: Object
@@ -3618,6 +3642,7 @@ paths:
                   pattern: '[a-fA-F0-9]{24}'
                 serial:
                   type: string
+                  pattern: '[A-F0-9]{16}'
                 expiryDate:
                   type: string
                   format: date-time
@@ -3760,6 +3785,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -3810,6 +3836,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -3857,6 +3884,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -3916,6 +3944,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -3975,6 +4004,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '[A-F0-9]{16}'
       requestBody:
         required: true
         content:
@@ -4304,7 +4334,7 @@ paths:
                         type: number
                       serial:
                         type: string
-                        pattern: '[a-fA-F0-9]{24}'
+                        pattern: '[A-F0-9]{16}'
       responses:
         '200':
           description: Object
@@ -4418,6 +4448,8 @@ paths:
                 firmware:
                   type: string
                 serial:
+                  type: string
+                thingId:
                   type: string
       responses:
         '200':
@@ -5706,6 +5738,29 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        icon:
+                          type: string
+                        filters:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              field:
+                                type: string
+                              value:
+                                type: string
+                              label:
+                                type: string
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '500':
@@ -6663,6 +6718,11 @@ components:
                 type: string
               icon:
                 type: string
+              match:
+                type: string
+                enum:
+                  - good
+                  - perfect
         allergens:
           type: array
           items:
@@ -6869,6 +6929,7 @@ components:
             - empty
         serial:
           type: string
+          pattern: '[A-F0-9]{16}'
         quantityLeft:
           type: number
         customTemperature:
@@ -6977,6 +7038,8 @@ components:
             - home
             - pro
         serial:
+          type: string
+        thingId:
           type: string
         macAddress:
           type: string
