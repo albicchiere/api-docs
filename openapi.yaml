@@ -3759,7 +3759,7 @@ paths:
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/cantina/smart_bags/{serial}/check_nfc':
-    get:
+    post:
       summary: Detail
       security:
         - Authorization: []
