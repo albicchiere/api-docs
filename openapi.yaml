@@ -1661,6 +1661,39 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /users/me/reviews:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - users
+      operationId: getUserMeWineVintageReviews
+      description: List all vintages review history of the logged in user
+      parameters:
+        - in: query
+          name: continuationToken
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WineVintageReview'
+                  continuationToken:
+                    type: string
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /notifications/register_new_device:
     post:
       summary: Create
@@ -3165,9 +3198,73 @@ paths:
                   reviews:
                     type: array
                     items:
-                      $ref: '#/components/schemas/WineVintageReview'
-                  continuationToken:
-                    type: string
+                      type: object
+                      required:
+                        - _id
+                        - vintageId
+                        - ownerId
+                        - description
+                        - rating
+                        - createdBy
+                        - createdAt
+                        - updatedBy
+                        - updatedAt
+                      properties:
+                        _id:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        vintageId:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        ownerId:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        author:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            lastname:
+                              type: string
+                            avatar:
+                              type: string
+                            reviewCount:
+                              type: number
+                        certified:
+                          type: boolean
+                        description:
+                          type: string
+                        rating:
+                          type: integer
+                        intensity:
+                          type: number
+                          format: double
+                        tannin:
+                          type: number
+                          format: double
+                        sweetness:
+                          type: number
+                          format: double
+                        acidity:
+                          type: number
+                          format: double
+                        fizziness:
+                          type: number
+                          format: double
+                        createdBy:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedBy:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                    continuationToken:
+                      type: string
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '500':
@@ -6798,6 +6895,8 @@ components:
         ownerId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        certified:
+          type: boolean
         description:
           type: string
         rating:
