@@ -9,7 +9,7 @@ info:
     name: API Support
     email: support@albicchiere.com
 servers:
-  - url: 'https://api-staging.albitest.ml'
+  - url: 'https://api-staging.albicchiere.com'
   - url: 'https://api-dev.albicchiere.com'
   - url: 'https://api-beta.albicchiere.com'
 paths:
