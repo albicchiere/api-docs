@@ -1193,7 +1193,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  user:
+                  stats:
                     $ref: '#/components/schemas/UserStat'
         '401':
           $ref: '#/paths/~1users/get/responses/401'
@@ -6461,16 +6461,16 @@ components:
     UserStat:
       type: object
       required:
-        - vintagesDrunk
-        - glassesDrunk
+        - drunkWines
         - labels
+        - glasses
         - favouriteWine
       properties:
-        vintagesDrunk:
-          type: integer
-        glassesDrunk:
+        drunkWines:
           type: integer
         labels:
+          type: integer
+        glasses:
           type: integer
         favouriteWine:
           type: object
