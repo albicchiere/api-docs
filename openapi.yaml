@@ -1669,10 +1669,18 @@ paths:
       tags:
         - users
       operationId: getUserMeWineVintageReviews
-      description: List all vintages review history of the logged in user
+      description: List all vintages review history of the logged in user.
       parameters:
         - in: query
-          name: continuationToken
+          name: status
+          required: false
+          schema:
+            type: string
+            enum:
+              - reviewed
+              - unreviewed
+        - in: query
+          name: page
           required: false
           schema:
             type: string
@@ -1684,12 +1692,146 @@ paths:
               schema:
                 type: object
                 properties:
-                  reviews:
+                  items:
                     type: array
                     items:
-                      $ref: '#/components/schemas/WineVintageReview'
-                  continuationToken:
-                    type: string
+                      type: object
+                      required:
+                        - _id
+                        - wineId
+                        - year
+                        - alcohol
+                        - temperature
+                        - label
+                        - status
+                        - isClaimedByWinery
+                        - createdBy
+                        - createdAt
+                        - updatedBy
+                        - updatedAt
+                      properties:
+                        _id:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        wineId:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        year:
+                          type: number
+                        yearDetails:
+                          type: string
+                        description:
+                          type: string
+                        alcohol:
+                          type: number
+                        temperature:
+                          type: integer
+                        moods:
+                          type: array
+                          items:
+                            type: object
+                            required:
+                              - name
+                              - icon
+                            properties:
+                              name:
+                                type: string
+                              icon:
+                                type: string
+                        pairings:
+                          type: array
+                          items:
+                            type: object
+                            required:
+                              - name
+                              - icon
+                            properties:
+                              name:
+                                type: string
+                              icon:
+                                type: string
+                              match:
+                                type: string
+                                enum:
+                                  - good
+                                  - perfect
+                        allergens:
+                          type: array
+                          items:
+                            type: string
+                        philosophy:
+                          type: array
+                          items:
+                            type: string
+                        images:
+                          type: object
+                          properties:
+                            bottle:
+                              type: object
+                              properties:
+                                default:
+                                  type: string
+                            label:
+                              type: object
+                              properties:
+                                default:
+                                  type: string
+                                dispenser:
+                                  type: string
+                                smartbag:
+                                  type: string
+                            others:
+                              type: array
+                              items:
+                                type: string
+                        awards:
+                          type: array
+                          items:
+                            type: string
+                        status:
+                          type: string
+                          enum:
+                            - pending
+                            - active
+                            - rejected
+                        isClaimedByWinery:
+                          type: boolean
+                        createdBy:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedBy:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                        reviewInfo:
+                          type: object
+                          required:
+                            - type
+                            - date
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                                - review
+                                - cantina
+                                - pour_wine
+                            date:
+                              type: string
+                              format: date-time
+                            reviewId:
+                              type: string
+                              pattern: '[a-fA-F0-9]{24}'
+                            certified:
+                              type: boolean
+                            rating:
+                              type: number
+                  pages:
+                    type: number
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '500':
@@ -3525,7 +3667,7 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
-          required: true
+          required: false
         - in: header
           name: albi-current-location
           schema:
@@ -4808,15 +4950,16 @@ paths:
                     wifiName:
                       type: string
       responses:
-        '200':
+        '202':
           description: Object
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  dispenser:
-                    $ref: '#/components/schemas/Dispenser'
+                  jobId:
+                    type: string
+                    pattern: '[a-fA-F0-9]{24}'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
