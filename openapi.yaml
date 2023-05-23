@@ -1296,6 +1296,10 @@ paths:
                     type: string
                     enum:
                       - Image created
+                  avatar:
+                    type: string
+                    enum:
+                      - 'https://albi-user-images-bucket-dev.s3.eu-west-1.amazonaws.com/63e4bf81ef2d0625feb00f6f.jpeg'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -4623,6 +4627,18 @@ paths:
           required: false
           schema:
             type: integer
+        - in: query
+          name: model
+          required: false
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        - in: query
+          name: vintage
+          required: false
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
