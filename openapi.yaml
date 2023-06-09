@@ -1020,7 +1020,12 @@ paths:
                 type: object
                 properties:
                   user:
-                    $ref: '#/components/schemas/User'
+                    allOf:
+                      - $ref: '#/components/schemas/User'
+                      - type: object
+                        properties:
+                          profileComplete:
+                            type: number
         '401':
           $ref: '#/paths/~1users/get/responses/401'
         '403':
@@ -2519,11 +2524,13 @@ paths:
               - red
               - white
               - rose
+          description: More values separeted by comma
         - in: query
           name: region
           required: false
           schema:
             type: string
+          description: More values separeted by comma
         - in: query
           name: wine_types
           required: false
@@ -2556,6 +2563,12 @@ paths:
           description: More values separeted by comma
         - in: query
           name: philosophy
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: country
           required: false
           schema:
             type: string
