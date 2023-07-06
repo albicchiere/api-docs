@@ -1479,6 +1479,16 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: query
+          name: expand
+          schema:
+            type: string
+            enum:
+              - vintage
+              - vintage.wine
+              - vintage.wine.winery
+              - all
+          required: false
       responses:
         '200':
           description: Object
