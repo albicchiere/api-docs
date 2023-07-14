@@ -4127,6 +4127,100 @@ paths:
                     type: integer
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /cantina/cantina_vintages:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - cantina
+      operationId: getCantina
+      description: List all smartbag and bottles in cantina grouped by vintages. Use the expand filter to get either userVintage or vintage object.
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: expand
+          required: false
+          schema:
+            type: string
+            enum:
+              - vintage
+              - vintage.wine
+              - vintage.wine.winery
+              - all
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  page:
+                    type: integer
+                  vintages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                          pattern: '[a-fA-F0-9]{24}'
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              ownerId:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              vintageId:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              type:
+                                type: string
+                                enum:
+                                  - smartbag
+                                  - bottle
+                              pairedAt:
+                                type: string
+                                format: date-time
+                        userVintage:
+                          required: false
+                          $ref: '#/components/schemas/UserVintage'
+                        vintage:
+                          required: false
+                          $ref: '#/components/schemas/WineVintage'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /cantina/smart_bags:
     get:
       summary: List
@@ -5458,11 +5552,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -5517,11 +5612,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -5544,9 +5640,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  jobId:
+                  message:
                     type: string
-                    pattern: '[a-fA-F0-9]{24}'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -5577,11 +5672,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       requestBody:
         required: true
         content:
@@ -5601,9 +5697,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  jobId:
+                  message:
                     type: string
-                    pattern: '[a-fA-F0-9]{24}'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -5634,11 +5729,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       responses:
         '202':
           description: Object
@@ -5647,9 +5743,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  jobId:
+                  message:
                     type: string
-                    pattern: '[a-fA-F0-9]{24}'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -5680,11 +5775,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       responses:
         '202':
           description: Object
@@ -5740,9 +5836,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  jobId:
+                  message:
                     type: string
-                    pattern: '[a-fA-F0-9]{24}'
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -5773,11 +5868,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
-        - name: dispenserId
-          in: path
-          require: true
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
+        - in: path
+          name: dispenserId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
       responses:
         '202':
           description: Object
@@ -5786,9 +5882,153 @@ paths:
               schema:
                 type: object
                 properties:
-                  jobId:
-                    type: string
-                    pattern: '[a-fA-F0-9]{24}'
+                  data:
+                    type: object
+                    properties:
+                      dispenser:
+                        type: object
+                        properties:
+                          _id:
+                            type: string
+                            pattern: '[a-fA-F0-9]{24}'
+                          ownerId:
+                            type: string
+                            pattern: '[a-fA-F0-9]{24}'
+                          name:
+                            type: string
+                          roomName:
+                            type: string
+                          wifiName:
+                            type: string
+                          chassis:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              slot:
+                                type: number
+                          macAddress:
+                            type: string
+                          firmware:
+                            type: string
+                          serviceSchedule:
+                            type: string
+                            format: date-time
+                          wineReadyAt:
+                            type: string
+                            format: date-time
+                          coolingMode:
+                            type: string
+                            enum:
+                              - eco
+                              - boost
+                              - silent
+                          parentalControl:
+                            type: boolean
+                          batteryStatus:
+                            type: string
+                            enum:
+                              - empty
+                              - low
+                              - half
+                              - full
+                              - charging
+                              - plugged
+                          model:
+                            type: string
+                            enum:
+                              - home
+                              - pro
+                          errors:
+                            type: array
+                            items:
+                              type: string
+                      bag:
+                        type: object
+                        properties:
+                          bagSerial:
+                            type: string
+                            pattern: '[a-fA-F0-9]{24}'
+                          smartbag:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              model:
+                                type: string
+                              customTemperature:
+                                type: string
+                              type:
+                                type: string
+                              quantityLeft:
+                                type: number
+                              qualityScore:
+                                type: number
+                              expiryDate:
+                                type: number
+                                format: date-time
+                              refillCounter:
+                                type: number
+                          vintage:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              wineId:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              name:
+                                type: string
+                              winery:
+                                type: string
+                              wineColor:
+                                type: string
+                              region:
+                                type: string
+                              grapes:
+                                type: array
+                                items:
+                                  type: string
+                              year:
+                                type: number
+                              alcohol:
+                                type: number
+                              temperature:
+                                type: number
+                              label:
+                                type: number
+                              labelQuality:
+                                type: string
+                              parentalControl:
+                                type: boolean
+                          userVintage:
+                            type: object
+                            properties:
+                              _id:
+                                type: string
+                                pattern: '[a-fA-F0-9]{24}'
+                              name:
+                                type: string
+                              winery:
+                                type: string
+                              wineColor:
+                                type: string
+                              region:
+                                type: string
+                              grapes:
+                                type: array
+                                items:
+                                  type: string
+                              year:
+                                type: number
+                              alcohol:
+                                type: number
+                              temperature:
+                                type: number
+                              parentalControl:
+                                type: boolean
         '400':
           $ref: '#/paths/~1roles/post/responses/400'
         '401':
@@ -7787,13 +8027,18 @@ components:
               type: number
         parentalControl:
           type: boolean
+        serviceSchedule:
+          type: string
+          format: date-time
+        wineReadyAt:
+          type: string
+          format: date-time
+        lastConnection:
+          type: string
+          format: date-time
         roomId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
-        roomTemperature:
-          type: number
-        wineTemperature:
-          type: number
         bagId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
