@@ -5939,7 +5939,7 @@ paths:
                             enum:
                               - home
                               - pro
-                          errors:
+                          alerts:
                             type: array
                             items:
                               type: string
