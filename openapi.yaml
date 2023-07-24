@@ -710,19 +710,20 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                required:
-                  - location
-                  - role
-                properties:
-                  location:
-                    type: string
-                    pattern: '[a-fA-F0-9]{24}'
-                  role:
-                    type: string
-                    pattern: '[a-fA-F0-9]{24}'
+              type: object
+              required:
+                - userId
+                - role
+              properties:
+                userId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                role:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                location:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
       responses:
         '200':
           description: Object
@@ -1214,7 +1215,7 @@ paths:
       tags:
         - users
       operationId: getUserCompanyAccesss
-      description: List all user locations
+      description: List all user locations grouped by company
       parameters:
         - in: query
           name: company
@@ -1227,6 +1228,16 @@ paths:
           required: false
           schema:
             type: integer
+        - in: query
+          name: expand
+          required: false
+          schema:
+            type: string
+            enum:
+              - company
+              - location
+              - 'company,location'
+              - all
       responses:
         '200':
           description: Object
@@ -1235,7 +1246,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  locations:
+                  companies:
                     type: array
                     items:
                       $ref: '#/components/schemas/UserCompanyAccess'
@@ -5797,6 +5808,16 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bagSerial:
+                  required: true
+                  type: string
       responses:
         '202':
           description: Object
@@ -6862,6 +6883,18 @@ paths:
           required: false
           schema:
             type: integer
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
       responses:
         '200':
           description: Object
@@ -6972,6 +7005,18 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
       responses:
         '200':
           description: Object
@@ -7314,17 +7359,26 @@ components:
         _id:
           type: string
           pattern: '[a-fA-F0-9]{24}'
-        company:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
-        location:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
-        role:
-          type: string
-          pattern: '[a-fA-F0-9]{24}'
-        profiling:
-          type: object
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              locationId:
+                type: string
+                pattern: '[a-fA-F0-9]{24}'
+              role:
+                type: string
+                pattern: '[a-fA-F0-9]{24}'
+              accessId:
+                type: string
+                pattern: '[a-fA-F0-9]{24}'
+              createdAt:
+                type: string
+                format: date-time
+              updatedAt:
+                type: string
+                format: date-time
     UserStat:
       type: object
       required:
