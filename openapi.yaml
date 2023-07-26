@@ -5279,7 +5279,7 @@ paths:
                   type: string
                 serial:
                   type: string
-                thingId:
+                thingName:
                   type: string
       responses:
         '200':
@@ -6155,7 +6155,7 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
-  '/dispenser/chassis/{dispenserId}':
+  '/dispenser/chassis/{chassisId}':
     get:
       summary: Detail
       security:
@@ -8059,7 +8059,7 @@ components:
             - pro
         serial:
           type: string
-        thingId:
+        thingName:
           type: string
         macAddress:
           type: string
