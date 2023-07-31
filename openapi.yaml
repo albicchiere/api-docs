@@ -4189,6 +4189,23 @@ paths:
           schema:
             type: integer
         - in: query
+          name: sort
+          required: false
+          schema:
+            type: string
+            enum:
+              - name
+              - pairedAt
+              - bestBefore
+        - in: query
+          name: order
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        - in: query
           name: expand
           required: false
           schema:
@@ -4198,6 +4215,69 @@ paths:
               - vintage.wine
               - vintage.wine.winery
               - all
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: color
+          required: false
+          schema:
+            type: string
+            enum:
+              - red
+              - white
+              - rose
+          description: More values separeted by comma
+        - in: query
+          name: region
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: wine_types
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: grapes
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: moods
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: pairings
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: allergens
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: philosophy
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
+        - in: query
+          name: country
+          required: false
+          schema:
+            type: string
+          description: More values separeted by comma
       responses:
         '200':
           description: Object
@@ -4219,25 +4299,9 @@ paths:
                         items:
                           type: array
                           items:
-                            type: object
-                            properties:
-                              _id:
-                                type: string
-                                pattern: '[a-fA-F0-9]{24}'
-                              ownerId:
-                                type: string
-                                pattern: '[a-fA-F0-9]{24}'
-                              vintageId:
-                                type: string
-                                pattern: '[a-fA-F0-9]{24}'
-                              type:
-                                type: string
-                                enum:
-                                  - smartbag
-                                  - bottle
-                              pairedAt:
-                                type: string
-                                format: date-time
+                            oneOf:
+                              - $ref: '#/components/schemas/Bottle'
+                              - $ref: '#/components/schemas/SmartBag'
                         userVintage:
                           required: false
                           $ref: '#/components/schemas/UserVintage'
