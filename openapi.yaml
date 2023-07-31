@@ -7521,16 +7521,59 @@ components:
           type: string
         isLocationEnabled:
           type: boolean
+        shipping:
+          type: boolean
+        billing:
+          type: boolean
         country:
           type: string
         city:
           type: string
         province:
           type: string
+        state:
+          type: string
         postalCode:
           type: string
         address:
           type: string
+        phone:
+          type: string
+        geolocation:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - Point
+            coordinates:
+              type: array
+              items:
+                type: number
+                default:
+                  - 138.5940786
+                  - -35.190243
+        tags:
+          type: array
+          items:
+            type: string
+        openingHours:
+          type: object
+          properties:
+            monday:
+              type: string
+            tueday:
+              type: string
+            wednesday:
+              type: string
+            thursday:
+              type: string
+            friday:
+              type: string
+            saturday:
+              type: string
+            sunday:
+              type: string
         vintagesParentalControl:
           type: array
           items:
@@ -7959,6 +8002,9 @@ components:
           minimum: 0
           maximum: 100
         openedAt:
+          type: string
+          format: date-time
+        bestBefore:
           type: string
           format: date-time
         expiryDate:
