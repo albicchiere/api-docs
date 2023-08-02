@@ -1059,6 +1059,7 @@ paths:
                   enum:
                     - male
                     - female
+                    - other
                 birthday:
                   type: string
                   format: date
@@ -7348,6 +7349,7 @@ components:
           enum:
             - male
             - female
+            - other
         birthday:
           type: string
           format: date
