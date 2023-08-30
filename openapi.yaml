@@ -28,6 +28,12 @@ paths:
           required: false
           schema:
             type: integer
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -58,6 +64,13 @@ paths:
         - companies
       operationId: createCompany
       description: Create a new company
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -159,6 +172,12 @@ paths:
       operationId: getCompany
       description: Get details about company
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: companyId
           required: true
@@ -208,6 +227,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: companyId
@@ -276,6 +301,12 @@ paths:
       operationId: changeStatus
       description: Change status of company
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: companyId
           required: true
@@ -311,6 +342,106 @@ paths:
           $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  '/companies/{companyId}/image':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getCompanyImage
+      description: Get image of my company
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company:
+                    $ref: '#/components/schemas/Company'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: updateCompanyImage
+      description: Edit image of my company
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+      requestBody:
+        required: true
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Image created
+                  image:
+                    type: string
+                    enum:
+                      - 'https://albi-company-images-bucket-dev.s3.eu-west-1.amazonaws.com/63e4bf81ef2d0625feb00f6f.jpeg'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   '/companies/{companyId}/addresses':
     get:
       summary: List
@@ -321,6 +452,12 @@ paths:
       operationId: getAllCompanyAddresses
       description: List all addresses of a company
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: companyId
           required: true
@@ -376,6 +513,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: companyId
@@ -445,6 +588,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: true
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: companyId
           required: true
@@ -500,6 +649,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: companyId
@@ -643,6 +798,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: companyId
           required: true
@@ -698,6 +859,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: companyId
@@ -766,6 +933,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: companyId
           required: true
@@ -821,6 +994,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: companyId
@@ -944,6 +1123,12 @@ paths:
       operationId: getAllUsers
       description: List all users
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -1012,6 +1197,13 @@ paths:
         - users
       operationId: getUserMe
       description: Get details about my user
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -1041,6 +1233,13 @@ paths:
         - users
       operationId: updateUserMe
       description: Edit info about my user
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -1154,6 +1353,13 @@ paths:
         - users
       operationId: deleteUserMe
       description: Request admins for user deletion
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -1192,6 +1398,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -1218,6 +1430,12 @@ paths:
       operationId: getUserCompanyAccesss
       description: List all user locations grouped by company
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: company
           required: false
@@ -1272,6 +1490,13 @@ paths:
         - users
       operationId: getUserImageMe
       description: Get image of my user
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -1294,6 +1519,13 @@ paths:
         - users
       operationId: updateUserImageMe
       description: Edit image of my user
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -1346,6 +1578,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
       requestBody:
         required: true
@@ -1401,6 +1639,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: vintageId
           required: true
@@ -1440,6 +1685,12 @@ paths:
       operationId: getUser
       description: Get details about my user
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: userId
           required: true
@@ -1491,6 +1742,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: expand
           schema:
@@ -1535,6 +1792,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
       requestBody:
         required: true
@@ -1582,6 +1845,13 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: vintageId
           required: true
@@ -1632,6 +1902,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '201':
           description: Object
@@ -1649,7 +1925,7 @@ paths:
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/users/me/wishlist/{sharedWishlistId}':
-    Get:
+    get:
       summary: Detail
       security:
         - Authorization: []
@@ -1669,6 +1945,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: sharedWishlistId
@@ -1702,6 +1984,12 @@ paths:
       operationId: getUserMeWineVintageReviews
       description: List all vintages review history of the logged in user.
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: status
           required: false
@@ -1876,6 +2164,13 @@ paths:
         - notifications
       operationId: registerNewDevice
       description: Register New Device Token
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -1920,6 +2215,13 @@ paths:
         - notifications
       operationId: deleteDevice
       description: Delete Device Token
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -1964,6 +2266,13 @@ paths:
         - notifications
       operationId: getNotifications
       description: List notifications
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -2011,6 +2320,12 @@ paths:
       operationId: getAllWineContainerModels
       description: List all wine container models
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -2059,6 +2374,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -2105,6 +2426,12 @@ paths:
       operationId: getWineContainerModel
       description: Get details about wine container model
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: id
           required: true
@@ -2143,6 +2470,12 @@ paths:
       operationId: editWineContainerModel
       description: Update info about user vintage
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: id
           required: true
@@ -2193,6 +2526,12 @@ paths:
       operationId: deleteWineContainerModel
       description: Delete Wine Container Model
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: id
           required: true
@@ -2248,6 +2587,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -2296,6 +2641,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: userVintageId
@@ -2346,6 +2697,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: userVintageId
@@ -2422,6 +2779,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: userVintageId
           required: true
@@ -2479,6 +2842,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: userVintageId
           required: true
@@ -2527,6 +2896,12 @@ paths:
       operationId: getAllWines
       description: List all wines
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -2634,6 +3009,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -2700,6 +3081,12 @@ paths:
       operationId: getWine
       description: Get details about wine
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -2744,6 +3131,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: wineId
@@ -2803,6 +3196,12 @@ paths:
       operationId: deleteWine
       description: Delete Wine
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -2847,6 +3246,12 @@ paths:
       operationId: getAllWineVintages
       description: List all vintages of a wine
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -2898,6 +3303,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: true
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -2961,6 +3372,12 @@ paths:
       operationId: getWineVintage
       description: Get details about wine vintage
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: vintageId
           required: true
@@ -3016,6 +3433,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: true
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3131,6 +3554,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3191,6 +3620,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: wineId
@@ -3256,6 +3691,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: wineId
@@ -3326,6 +3767,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3371,6 +3818,12 @@ paths:
       operationId: getWineVintageReviews
       description: List all vintages review
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3489,6 +3942,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3558,6 +4017,12 @@ paths:
       operationId: getWineVintageReviewsRecap
       description: Get vintage review recap
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3597,6 +4062,12 @@ paths:
       operationId: getWineVintageReview
       description: Get vintage review
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3646,6 +4117,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: wineId
@@ -3731,6 +4208,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: wineId
           required: true
@@ -3792,6 +4275,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -3833,6 +4322,12 @@ paths:
       operationId: getRandomWines
       description: List a random set of wines
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: size
           required: false
@@ -3862,6 +4357,12 @@ paths:
       operationId: searchWines
       description: List of searched wines with company and vintage (the vintage is the one with highest ratings)
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -4179,6 +4680,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -4337,6 +4844,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -4445,6 +4958,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: smartBagId
           required: true
@@ -4484,6 +5003,12 @@ paths:
       operationId: deleteUserSmartBag
       description: Delete a smart bag
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: smartBagId
           required: true
@@ -4539,6 +5064,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: serial
           required: true
@@ -4590,6 +5121,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: serial
           required: true
@@ -4637,6 +5174,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: serial
@@ -4698,6 +5241,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: serial
           required: true
@@ -4758,6 +5307,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: serial
           required: true
@@ -4817,6 +5372,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -4864,6 +5425,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
       requestBody:
         required: true
@@ -4961,6 +5528,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: bottleId
           required: true
@@ -5010,6 +5583,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: header
           name: if-match
@@ -5065,6 +5644,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: bottleId
@@ -5137,6 +5722,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: query
           name: page
@@ -5217,6 +5808,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: bottleId
           required: true
@@ -5274,6 +5871,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -5322,6 +5925,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       requestBody:
         required: true
         content:
@@ -5336,8 +5945,9 @@ paths:
                 model:
                   type: string
                   enum:
-                    - home
-                    - pro
+                    - Albi Home M+
+                    - Albi Home S
+                    - Albi Pro
                 macAddress:
                   type: string
                 firmware:
@@ -5385,6 +5995,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: dispenserId
@@ -5435,6 +6051,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: dispenserId
@@ -5567,6 +6189,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: serial
           required: true
@@ -5644,6 +6272,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -5703,6 +6337,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: dispenserId
@@ -5764,6 +6404,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -5821,6 +6467,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -5866,6 +6518,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: dispenserId
@@ -5924,6 +6582,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: dispenserId
           required: true
@@ -5969,6 +6633,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: dispenserId
@@ -6039,8 +6709,9 @@ paths:
                           model:
                             type: string
                             enum:
-                              - home
-                              - pro
+                              - Albi Home M+
+                              - Albi Home S
+                              - Albi Pro
                           alerts:
                             type: array
                             items:
@@ -6325,6 +6996,12 @@ paths:
             pattern: '[a-fA-F0-9]{24}'
           required: false
         - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: header
           name: albi-current-location
           schema:
             type: string
@@ -6372,6 +7049,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
       requestBody:
         required: true
@@ -6424,6 +7107,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: roomId
           required: true
@@ -6473,6 +7162,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: roomId
@@ -6594,6 +7289,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -6642,6 +7343,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: path
           name: jobId
@@ -6694,6 +7401,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -6743,6 +7456,12 @@ paths:
             type: string
             pattern: '[a-fA-F0-9]{24}'
           required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: jobId
           required: true
@@ -6781,6 +7500,13 @@ paths:
         - app_settings
       operationId: getAlbiSommelierConfig
       description: Get albi sommelier page configuration
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -6824,6 +7550,13 @@ paths:
         - app_settings
       operationId: getHomeConfig
       description: Get home page configuration
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -6844,6 +7577,13 @@ paths:
         - app_settings
       operationId: getSearchConfig
       description: Get search page configuration
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -6864,6 +7604,13 @@ paths:
         - wine_setting
       operationId: getWineSetting
       description: Get wine setting
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
       responses:
         '200':
           description: Object
@@ -6953,6 +7700,12 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
         - in: header
           name: albi-current-location
@@ -7077,6 +7830,12 @@ paths:
             pattern: '[a-fA-F0-9]{24}'
           required: true
         - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: header
           name: albi-current-location
           schema:
             type: string
@@ -7114,6 +7873,12 @@ paths:
       operationId: updateRole
       description: Update role
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: roleId
           required: true
@@ -7228,6 +7993,12 @@ paths:
       operationId: getAllBlocks
       description: List all roles blocks
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: query
           name: page
           required: false
@@ -7265,6 +8036,12 @@ paths:
       operationId: getBlockById
       description: Get role block
       parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
         - in: path
           name: blockId
           required: true
@@ -8167,8 +8944,9 @@ components:
         model:
           type: string
           enum:
-            - home
-            - pro
+            - Albi Home M+
+            - Albi Home S
+            - Albi Pro
         serial:
           type: string
         thingName:
