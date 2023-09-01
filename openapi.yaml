@@ -2598,6 +2598,11 @@ paths:
           required: false
           schema:
             type: integer
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Object
@@ -3385,13 +3390,15 @@ paths:
             type: string
         - in: query
           name: expand
-          required: false
           schema:
             type: string
             enum:
               - wine
-              - 'wine, winery'
+              - wine.winery
+              - wine.vintages
+              - 'wine.winery,wine.vintages'
               - all
+          required: false
       responses:
         '200':
           description: Object
@@ -3454,15 +3461,6 @@ paths:
           schema:
             type: string
           required: true
-        - in: query
-          name: expand
-          schema:
-            type: string
-            enum:
-              - wine
-              - wine.winery
-              - all
-          required: false
       requestBody:
         required: true
         content:
@@ -4970,6 +4968,16 @@ paths:
           schema:
             type: string
             pattern: '[a-fA-F0-9]{24}'
+        - in: query
+          name: expand
+          required: false
+          schema:
+            type: string
+            enum:
+              - vintage
+              - vintage.wine
+              - vintage.wine.winery
+              - all
       responses:
         '200':
           description: Object
@@ -5076,6 +5084,16 @@ paths:
           schema:
             type: string
             pattern: '[A-F0-9]{16}'
+        - in: query
+          name: expand
+          required: false
+          schema:
+            type: string
+            enum:
+              - vintage
+              - vintage.wine
+              - vintage.wine.winery
+              - all
       responses:
         '200':
           description: Object
@@ -8186,6 +8204,11 @@ components:
           type: string
           format: date-time
         vintagesParentalControl:
+          type: array
+          items:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+        wishlist:
           type: array
           items:
             type: string
