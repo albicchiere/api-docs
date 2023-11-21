@@ -8465,11 +8465,11 @@ components:
                 - Point
             coordinates:
               type: array
+              default:
+                - 138.5940786
+                - -35.190243
               items:
                 type: number
-                default:
-                  - 138.5940786
-                  - -35.190243
         tags:
           type: array
           items:
