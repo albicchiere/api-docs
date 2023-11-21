@@ -1151,7 +1151,6 @@ paths:
                   pages:
                     type: integer
         '401':
-          name: Cognito Unauthorized
           description: Endpoint reachable only after authentication with cognito
           content:
             application/json:
@@ -1161,7 +1160,6 @@ paths:
                   message:
                     type: string
         '403':
-          name: ApiForbiddenError
           description: Internal scope auth error
           content:
             application/json:
@@ -1175,7 +1173,6 @@ paths:
                   error_message:
                     type: string
         '500':
-          name: InternalError
           description: Generic internal error
           content:
             application/json:
@@ -2295,7 +2292,6 @@ paths:
                         createdAt:
                           type: string
         '404':
-          name: NotFoundError
           description: Element with requested uuid not found
           content:
             application/json:
@@ -3181,7 +3177,6 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          name: Cognito Unauthorized
           description: Endpoint reachable only after authentication with cognito
           content:
             application/json:
@@ -3913,8 +3908,8 @@ paths:
                         updatedAt:
                           type: string
                           format: date-time
-                    continuationToken:
-                      type: string
+                  continuationToken:
+                    type: string
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '500':
@@ -4293,7 +4288,6 @@ paths:
       responses:
         '200':
           description: Object
-          headers: null
           content:
             application/json:
               schema:
@@ -4552,59 +4546,59 @@ paths:
                                     enum:
                                       - good
                                       - perfect
-                          allergens:
-                            type: array
-                            items:
+                            allergens:
+                              type: array
+                              items:
+                                type: string
+                            philosophy:
+                              type: array
+                              items:
+                                type: string
+                            images:
+                              type: object
+                              properties:
+                                bottle:
+                                  type: object
+                                  properties:
+                                    default:
+                                      type: string
+                                label:
+                                  type: object
+                                  properties:
+                                    default:
+                                      type: string
+                                    dispenser:
+                                      type: string
+                                    smartbag:
+                                      type: string
+                                others:
+                                  type: array
+                                  items:
+                                    type: string
+                            awards:
+                              type: array
+                              items:
+                                type: string
+                            status:
                               type: string
-                          philosophy:
-                            type: array
-                            items:
+                              enum:
+                                - pending
+                                - active
+                                - rejected
+                            isClaimedByWinery:
+                              type: boolean
+                            createdBy:
                               type: string
-                          images:
-                            type: object
-                            properties:
-                              bottle:
-                                type: object
-                                properties:
-                                  default:
-                                    type: string
-                              label:
-                                type: object
-                                properties:
-                                  default:
-                                    type: string
-                                  dispenser:
-                                    type: string
-                                  smartbag:
-                                    type: string
-                              others:
-                                type: array
-                                items:
-                                  type: string
-                          awards:
-                            type: array
-                            items:
+                              pattern: '[a-fA-F0-9]{24}'
+                            createdAt:
                               type: string
-                          status:
-                            type: string
-                            enum:
-                              - pending
-                              - active
-                              - rejected
-                          isClaimedByWinery:
-                            type: boolean
-                          createdBy:
-                            type: string
-                            pattern: '[a-fA-F0-9]{24}'
-                          createdAt:
-                            type: string
-                            format: date-time
-                          updatedBy:
-                            type: string
-                            pattern: '[a-fA-F0-9]{24}'
-                          updatedAt:
-                            type: string
-                            format: date-time
+                              format: date-time
+                            updatedBy:
+                              type: string
+                              pattern: '[a-fA-F0-9]{24}'
+                            updatedAt:
+                              type: string
+                              format: date-time
                         winery:
                           type: object
                           properties:
@@ -6308,9 +6302,10 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - quantity
               properties:
                 quantity:
-                  required: true
                   type: string
                   enum:
                     - drink
@@ -6374,9 +6369,10 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - mode
               properties:
                 mode:
-                  required: true
                   type: string
                   enum:
                     - eco
@@ -6440,9 +6436,10 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - scheduleTime
               properties:
                 scheduleTime:
-                  required: true
                   type: string
                   format: date-time
       responses:
@@ -6555,9 +6552,10 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - bagSerial
               properties:
                 bagSerial:
-                  required: true
                   type: string
       responses:
         '202':
@@ -7858,7 +7856,6 @@ paths:
                   role:
                     $ref: '#/components/schemas/Role'
         '400':
-          name: BadRequestError
           description: Error on request body
           content:
             application/json:
@@ -8179,8 +8176,11 @@ components:
           properties:
             id:
               type: string
+            name:
+              type: string
             firstAccess:
-              type: date-time
+              type: string
+              format: date-time
         provider:
           type: string
           description: 'if user login via social (ex Google, Facebook...)'
@@ -9048,7 +9048,8 @@ components:
             - boost
             - silent
         pairedAt:
-          type: Date
+          type: string
+          format: date-time
         pairedBy:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -9136,7 +9137,8 @@ components:
           type: string
           pattern: '[a-fA-F0-9]{24}'
         timestamp:
-          type: Date
+          type: string
+          format: date-time
         userId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
@@ -9180,7 +9182,8 @@ components:
           type: string
           pattern: '[a-fA-F0-9]{24}'
         timestamp:
-          type: Date
+          type: string
+          format: date-time
         userId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
