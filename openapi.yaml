@@ -3745,7 +3745,7 @@ paths:
         - Authorization: []
       tags:
         - wines
-      operationId: addWineVintageImage
+      operationId: deleteWineVintageImage
       description: Create a vintage wine image
       parameters:
         - in: header
@@ -4999,7 +4999,6 @@ paths:
       summary: Delete
       security:
         - Authorization: []
-        - ApiKeyAuth: []
       tags:
         - smart_bags
       operationId: deleteUserSmartBag
