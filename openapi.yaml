@@ -1741,6 +1741,7 @@ paths:
                   format: date
                 nationality:
                   type: string
+                  pattern: '[A-Z]{3}'
                 locale:
                   type: string
                 measure:
