@@ -330,7 +330,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/companies/{companyId}/change_status':
@@ -871,7 +871,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -931,7 +931,7 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/companies/{companyId}/user_accesses':
@@ -1208,7 +1208,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -1268,7 +1268,329 @@ paths:
         '403':
           $ref: '#/paths/~1users/get/responses/403'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/${companyId}/company_setting':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: getCompanySetting
+      description: Get company setting
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel_setting:
+                    $ref: '#/paths/~1app_settings~1elabel_setting/get/responses/200/content/application~1json/schema/properties/elabel_setting'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/${companyId}/company_setting/${field}':
+    post:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: createCompanySettingField
+      description: Get company setting
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: field
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: object
+                  properties:
+                    baseLanguage:
+                      type: string
+                    name:
+                      type: string
+                    field:
+                      type: string
+                      pattern:
+                        - ingredients
+                        - packagingMaterials
+                - type: object
+                  properties:
+                    baseLanguage:
+                      type: string
+                    name:
+                      type: string
+                    category:
+                      type: string
+                - type: object
+                  properties:
+                    baseLanguage:
+                      type: string
+                    name:
+                      type: string
+                    image:
+                      type: string
+                - type: object
+                  properties:
+                    baseLanguage:
+                      type: string
+                    name:
+                      type: string
+                    components:
+                      type: object
+                - type: object
+                  properties:
+                    baseLanguage:
+                      type: string
+                    name:
+                      type: string
+                    capacity:
+                      type: number
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel_setting:
+                    $ref: '#/paths/~1app_settings~1elabel_setting/get/responses/200/content/application~1json/schema/properties/elabel_setting'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: createCompanySettingField
+      description: Get company setting
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: field
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                locale:
+                  type: object
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel_setting:
+                    $ref: '#/paths/~1app_settings~1elabel_setting/get/responses/200/content/application~1json/schema/properties/elabel_setting'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: deleteCompanySettingField
+      description: Delete company setting field
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: field
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Item deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '412':
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/companies/${companyId}/company_setting/${field}/${name}':
+    $ref: '#/paths/~1companies~1%24%7BcompanyId%7D~1company_setting~1%24%7Bfield%7D'
+  '/companies/${companyId}/company_setting/${field}/${name}/image':
+    post:
+      summary: Action
+      security:
+        - Authorization: []
+      tags:
+        - companies
+      operationId: updateCompanySettingFieldImage
+      description: Edit image of company setting field
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: companyId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: field
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Image created
+                  avatar:
+                    type: string
+                    enum:
+                      - 'https://images.albicchiere.com/63e4bf81ef2d0625feb00f6f.jpeg'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /users:
@@ -2976,7 +3298,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -3038,7 +3360,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/user_vintages/{userVintageId}/label':
@@ -3397,14 +3719,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          description: Endpoint reachable only after authentication with cognito
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -3453,7 +3768,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages':
@@ -3743,7 +4058,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -3809,7 +4124,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/wine/wines/{wineId}/vintages/{vintageId}/label':
@@ -4397,7 +4712,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -4463,7 +4778,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /wine/wines/scan_label:
@@ -6349,7 +6664,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -6405,7 +6720,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   '/dispenser/dispensers/{serial}/activate':
@@ -7265,7 +7580,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -7327,7 +7642,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/rooms:
@@ -7564,7 +7879,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
     delete:
@@ -7620,7 +7935,7 @@ paths:
         '404':
           $ref: '#/paths/~1notifications/get/responses/404'
         '412':
-          $ref: '#/paths/~1wine~1wines~1%7BwineId%7D/patch/responses/412'
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
   /dispenser/jobs:
@@ -8088,6 +8403,868 @@ paths:
           $ref: '#/paths/~1notifications/get/responses/404'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /app_settings/elabel_setting:
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - elabel_setting
+      operationId: getElabelSetting
+      description: Get elabel setting
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel_setting:
+                    type: object
+                    required: null
+                    properties:
+                      _id:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      wineContainerModels:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          capacity:
+                            type: number
+                          modelId:
+                            type: string
+                            pattern: '[a-fA-F0-9]{24}'
+                      categories:
+                        name:
+                          type: string
+                        field:
+                          type: string
+                          enum:
+                            - ingredients
+                            - packagingMaterials
+                      ingredients:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            category:
+                              type: string
+                            locale:
+                              type: array
+                      certifications:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            image:
+                              type: string
+                            locale:
+                              type: array
+                      warnings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            image:
+                              type: string
+                            locale:
+                              type: array
+                      packagingComponents:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            locale:
+                              type: array
+                      packagingMaterials:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            locale:
+                              type: array
+                      packagings:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          locale:
+                            type: array
+                          components:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                packagingComponent:
+                                  type: string
+                                packgingMaterial:
+                                  type: string
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  /elabels:
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - elabels
+      operationId: getAllElabels
+      description: List all elabels
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: companyId
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: expand
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabels:
+                    type: object
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - elabels
+      operationId: createElabel
+      description: Create new elabel
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/paths/~1elabels/post/responses/200/content/application~1json/schema/properties/elabel'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel:
+                    type: object
+                    required:
+                      - _id
+                      - companyId
+                      - vintageId
+                      - modelId
+                      - baseLanguage
+                      - pageLayout
+                      - qrCode
+                      - warnings
+                      - productionDetails
+                      - legalDetails
+                      - certifications
+                      - packaging
+                      - batches
+                      - createdBy
+                    properties:
+                      _id:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      companyId:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      vintageId:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      modelId:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      baseLanguage:
+                        type: string
+                      pageLayout:
+                        type: object
+                        properties:
+                          background:
+                            type: string
+                          sheetBackground:
+                            type: string
+                      qrCode:
+                        type: object
+                        properties:
+                          background:
+                            type: string
+                          showLogo:
+                            type: boolean
+                          pattern:
+                            type: object
+                            properties:
+                              dotsOptions:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                    enum:
+                                      - dots
+                                      - rounded
+                                      - classy
+                                      - classy-rounded
+                                      - square
+                                      - extra-rounded
+                                  color:
+                                    type: string
+                              cornersSquareOptions:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                    enum:
+                                      - dots
+                                      - rounded
+                                      - classy
+                                      - classy-rounded
+                                      - square
+                                      - extra-rounded
+                                  color:
+                                    type: string
+                              cornersDotOptions:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                    enum:
+                                      - dots
+                                      - rounded
+                                      - classy
+                                      - classy-rounded
+                                      - square
+                                      - extra-rounded
+                                  color:
+                                    type: string
+                      warnings:
+                        type: array
+                        of: string
+                      productionDetails:
+                        type: object
+                        properties:
+                          operatorType:
+                            type: string
+                            enum:
+                              - bottler
+                              - importer
+                              - producer
+                          operatorName:
+                            type: string
+                          countries:
+                            type: array
+                            of: string
+                      legalDetails:
+                        type: object
+                        properties:
+                          impressum:
+                            type: string
+                          countries:
+                            type: array
+                            of: string
+                      certifications:
+                        type: array
+                        items:
+                          type: string
+                      packaging:
+                        type: string
+                      batches:
+                        type: string
+                        items:
+                          type: object
+                      createdBy:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      updatedBy:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/elabels/{elabelId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - elabels
+      operationId: getElabel
+      description: Get details about elabel
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: elabelId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel:
+                    $ref: '#/paths/~1elabels/post/responses/200/content/application~1json/schema/properties/elabel'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - elabels
+      operationId: editElabel
+      description: Update info about elabel
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: elabelId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capacity:
+                  type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel:
+                    $ref: '#/paths/~1elabels/post/responses/200/content/application~1json/schema/properties/elabel'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '412':
+          description: Endpoint reachable only after authentication with cognito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - elabels
+      operationId: deleteElabel
+      description: Delete elabel
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: elabelId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Elabel deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '412':
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/elabels/{elabelId}/batches':
+    get:
+      summary: List
+      security:
+        - Authorization: []
+      tags:
+        - elabel_batches
+      operationId: getAllElabelBatches
+      description: List all elabel batches
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: companyId
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: expand
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabels:
+                    type: object
+                  page:
+                    type: integer
+                  pages:
+                    type: integer
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create
+      security:
+        - Authorization: []
+      tags:
+        - elabel_batches
+      operationId: createElabelBatch
+      description: Create new elabel batch
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/paths/~1elabels~1batches~1%7BbatchId%7D/get/responses/200/content/application~1json/schema/properties/elabel'
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel:
+                    $ref: '#/paths/~1elabels~1batches~1%7BbatchId%7D/get/responses/200/content/application~1json/schema/properties/elabel'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+  '/elabels/batches/{batchId}':
+    get:
+      summary: Detail
+      security:
+        - Authorization: []
+      tags:
+        - elabel_batches
+      operationId: getElabelBatch
+      description: Get details about elabel batch
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: elabelId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Object
+          headers:
+            etag:
+              schema:
+                type: string
+                description: This header is an identifier for a specific version of a resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel:
+                    type: object
+                    required:
+                      - _id
+                      - companyId
+                      - vintageId
+                      - modelId
+                      - baseLanguage
+                      - pageLayout
+                      - qrCode
+                      - warnings
+                      - productionDetails
+                      - legalDetails
+                      - certifications
+                      - packaging
+                      - batches
+                      - createdBy
+                    properties:
+                      _id:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      elabelId:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      batchId:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      name:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                          - draft
+                          - published
+                      ingredients:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            ingredient:
+                              type: string
+                            isAllergen:
+                              type: boolean
+                      nutritionFacts:
+                        type: object
+                        properties:
+                          alcohol:
+                            type: number
+                          residualSugar:
+                            type: number
+                          tartaricAcid:
+                            type: number
+                          energy:
+                            type: number
+                          fat:
+                            type: number
+                          saturatedFat:
+                            type: number
+                          carbohydrate:
+                            type: number
+                          carbohydrateSugar:
+                            type: number
+                          protein:
+                            type: number
+                          salt:
+                            type: number
+                          aggregateSmallQuantities:
+                            type: number
+                      createdBy:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      updatedBy:
+                        type: string
+                        pattern: '[a-fA-F0-9]{24}'
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    patch:
+      summary: Edit
+      security:
+        - Authorization: []
+      tags:
+        - elabel_batches
+      operationId: editElabelBatch
+      description: Update info about elabel batch
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: true
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: elabelId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                capacity:
+                  type: integer
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  elabel:
+                    $ref: '#/paths/~1elabels~1batches~1%7BbatchId%7D/get/responses/200/content/application~1json/schema/properties/elabel'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '412':
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
+    delete:
+      summary: Delete
+      security:
+        - Authorization: []
+      tags:
+        - elabel_batches
+      operationId: deleteElabelBatch
+      description: Delete elabel batch
+      parameters:
+        - in: header
+          name: albi-user-coordinates
+          schema:
+            type: string
+            pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
+          required: false
+        - in: path
+          name: elabelId
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: if-match
+          schema:
+            type: string
+          required: true
+      responses:
+        '201':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - Elabel batch deleted
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '404':
+          $ref: '#/paths/~1notifications/get/responses/404'
+        '412':
+          $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   /roles:
     get:
       summary: List
@@ -8544,6 +9721,7 @@ components:
           format: date
         nationality:
           type: string
+          pattern: '[A-Z]{3}'
         policyConsent:
           type: object
           required:
@@ -9183,6 +10361,9 @@ components:
         _id:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        average:
+          type: number
+          format: double
         rating1:
           type: integer
         rating2:
