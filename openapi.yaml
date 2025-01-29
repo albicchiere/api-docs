@@ -2813,6 +2813,11 @@ paths:
             type: string
             pattern: '^-?\d{1,2}(?:\.\d+)?,-?\d{1,3}(?:\.\d+)?$'
           required: false
+        - in: query
+          name: mark_as_read
+          schema:
+            type: boolean
+          required: false
       responses:
         '200':
           description: Object
@@ -2826,13 +2831,27 @@ paths:
                     items:
                       type: object
                       properties:
+                        _id:
+                          type: string
                         type:
                           type: string
+                          enum:
+                            - general
+                            - promotion
+                            - alert
                         message:
+                          type: string
+                        userId:
                           type: string
                         link:
                           type: string
+                        expireAt:
+                          type: string
+                        read:
+                          type: boolean
                         createdAt:
+                          type: string
+                        updatedAt:
                           type: string
         '404':
           description: Element with requested uuid not found
@@ -9266,6 +9285,709 @@ paths:
           $ref: '#/paths/~1elabels~1%7BelabelId%7D/patch/responses/412'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+  /winelists:
+    get:
+      tags:
+        - winelists
+      summary: Get all wine lists
+      description: Retrieve all wine lists for a location
+      parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: false
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: false
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
+        - name: location_id
+          in: query
+          description: ID of the location to get wine lists for
+          required: false
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Fields to expand (use 'all' to expand all fields)
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully retrieved wine lists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wineLists:
+                    type: array
+                    items:
+                      $ref: '#/paths/~1winelists/post/responses/201/content/application~1json/schema/properties/wineList'
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  totalItems:
+                    type: integer
+        '403':
+          description: Forbidden - Location ID is required
+        '500':
+          description: Internal server error
+    post:
+      tags:
+        - winelists
+      summary: Create a new wine list
+      description: Create a new wine list for a location
+      parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                vintages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      vintageId:
+                        type: string
+                      userVintageId:
+                        type: string
+                      modelPrices:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            modelName:
+                              type: string
+                            capacity:
+                              type: number
+                            price:
+                              type: number
+                      isVisible:
+                        type: boolean
+                extraWineData:
+                  type: array
+                  items:
+                    type: string
+                categories:
+                  type: array
+                  items:
+                    type: string
+                template:
+                  type: string
+                isActive:
+                  type: boolean
+      responses:
+        '201':
+          description: Wine list created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wineList:
+                    type: object
+                    required:
+                      - _id
+                      - locationId
+                      - name
+                      - vintages
+                      - extraWineData
+                      - categories
+                      - template
+                      - isActive
+                      - updatedAt
+                    properties:
+                      _id:
+                        type: string
+                        description: The unique identifier of the wine list
+                      locationId:
+                        type: string
+                        description: The location ID this wine list belongs to
+                      name:
+                        type: string
+                        description: The name of the wine list
+                      vintages:
+                        type: array
+                        items:
+                          type: object
+                          required:
+                            - vintageId
+                            - userVintageId
+                            - modelPrices
+                            - isVisible
+                          properties:
+                            vintageId:
+                              type: string
+                              description: ID of the wine vintage
+                            userVintageId:
+                              type: string
+                              description: ID of the user vintage
+                            modelPrices:
+                              type: array
+                              items:
+                                type: object
+                                required:
+                                  - modelName
+                                  - price
+                                properties:
+                                  modelName:
+                                    type: string
+                                    description: Name of the model (e.g. glass)
+                                  capacity:
+                                    type: number
+                                    description: Capacity in ml
+                                  price:
+                                    type: number
+                                    description: Price for this model and capacity
+                            isVisible:
+                              type: boolean
+                              description: Whether this vintage is visible in the wine list
+                            vintage:
+                              $ref: '#/components/schemas/WineVintage'
+                            userVintage:
+                              $ref: '#/components/schemas/UserVintage'
+                      extraWineData:
+                        type: array
+                        items:
+                          type: string
+                        description: Additional wine data fields to display
+                      categories:
+                        type: array
+                        items:
+                          type: string
+                        description: Categories of wines in the list
+                      template:
+                        type: string
+                        description: Template used for displaying the wine list
+                      isActive:
+                        type: boolean
+                        description: Whether this wine list is currently active
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        description: Last update timestamp
+                      createdBy:
+                        type: string
+                        description: ID of the user who created this wine list
+                      updatedBy:
+                        type: string
+                        description: ID of the user who last updated this wine list
+        '400':
+          description: Bad request - Missing required fields
+        '403':
+          description: Forbidden - Invalid location
+        '500':
+          description: Internal server error
+  '/winelists/{wineListId}':
+    get:
+      tags:
+        - winelists
+      summary: Get wine list by ID
+      description: Retrieve a specific wine list by its ID
+      parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
+        - name: wineListId
+          in: path
+          description: ID of the wine list to retrieve
+          required: true
+          schema:
+            type: string
+        - name: expand
+          in: query
+          description: Fields to expand (use 'all' to expand all fields)
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved wine list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wineList:
+                    $ref: '#/paths/~1winelists/post/responses/201/content/application~1json/schema/properties/wineList'
+        '404':
+          description: Wine list not found
+        '500':
+          description: Internal server error
+    patch:
+      tags:
+        - winelists
+      summary: Update wine list
+      description: Update an existing wine list
+      parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
+        - name: wineListId
+          in: path
+          description: ID of the wine list to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                vintages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      vintageId:
+                        type: string
+                      userVintageId:
+                        type: string
+                      modelPrices:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            modelName:
+                              type: string
+                            capacity:
+                              type: number
+                            price:
+                              type: number
+                      isVisible:
+                        type: boolean
+                extraWineData:
+                  type: array
+                  items:
+                    type: string
+                categories:
+                  type: array
+                  items:
+                    type: string
+                template:
+                  type: string
+                isActive:
+                  type: boolean
+      responses:
+        '200':
+          description: Wine list updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  wineList:
+                    $ref: '#/paths/~1winelists/post/responses/201/content/application~1json/schema/properties/wineList'
+        '403':
+          description: Forbidden - Wrong location header or field
+        '404':
+          description: Wine list not found
+        '500':
+          description: Internal server error
+    delete:
+      tags:
+        - winelists
+      summary: Delete wine list
+      description: Delete a specific wine list
+      parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
+        - name: wineListId
+          in: path
+          description: ID of the wine list to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Wine list deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: WineList deleted
+        '403':
+          description: Forbidden - Wrong location header or field
+        '404':
+          description: Wine list not found
+        '500':
+          description: Internal server error
+  /winelists/disable_all:
+    patch:
+      tags:
+        - winelists
+      summary: Disable all wine lists
+      description: Disable all wine lists for a specific location
+      parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
+        - name: location_id
+          in: query
+          description: ID of the location to disable wine lists for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: All wine lists disabled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: All winelists disabled for location
+        '400':
+          description: Bad request - Missing location ID
+        '403':
+          description: Forbidden - Invalid location
+        '500':
+          description: Internal server error
+  /production_tags:
+    get:
+      summary: Get all production tags
+      security:
+        - Authorization: []
+      tags:
+        - production_tags
+      operationId: getProductionTags
+      description: Retrieves all production tags.  Requires admin privileges.  Allows filtering by status.
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+              - canceled
+          description: Filter tags by status.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number for pagination.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+          description: Limit for pagination.
+      responses:
+        '200':
+          description: A paginated list of production tags.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        serial:
+                          type: string
+                        batchNumber:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                            - active
+                            - inactive
+                            - canceled
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                  page:
+                    type: integer
+                  totalPages:
+                    type: integer
+        '403':
+          description: Forbidden. Only admins are allowed.
+  /production_tags/upload:
+    post:
+      summary: Upload production tags
+      security:
+        - Authorization: []
+      tags:
+        - production_tags
+      operationId: uploadProductionTags
+      description: Uploads a batch of production tags. Requires admin privileges.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                batchNumber:
+                  type: string
+                  description: Batch number for the tags.
+                model:
+                  type: string
+                  description: Model of the NFC tags (not albicchiere's wine container model).
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of tag serials.
+              required:
+                - batchNumber
+                - tags
+      responses:
+        '201':
+          description: Production tags created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                    description: Array of created tag serials.
+        '400':
+          description: Bad Request.  Invalid input.
+        '403':
+          description: Forbidden. Only admins are allowed.
+  /production_tags/download-csv:
+    get:
+      summary: Download production tags as CSV
+      security:
+        - Authorization: []
+      tags:
+        - production_tags
+      operationId: getProductionTagsCSV
+      description: Downloads all production tags as a CSV file. Requires admin privileges. Allows filtering by status.
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+              - canceled
+          description: Filter tags by status.
+      responses:
+        '200':
+          description: CSV file containing production tags.
+          content:
+            text/csv:
+              schema:
+                type: string
+                description: CSV data
+        '403':
+          description: Forbidden. Only admins are allowed.
+  /production_tags/report_activated:
+    post:
+      summary: Report activated tags
+      security:
+        - Authorization: []
+      tags:
+        - production_tags
+      operationId: reportActivatedProductionTags
+      description: Updates the status of specified production tags to 'active' and creates corresponding SmartBags. Requires admin privileges.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: string
+                    description: Array of tag serials to activate.
+                model:
+                  type: string
+                  description: ID of the SmartBag model.
+                batchNumber:
+                  type: string
+                  description: Batch number for the tags.
+              required:
+                - tags
+                - model
+                - batchNumber
+      responses:
+        '200':
+          description: Tags updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message.
+        '400':
+          description: Bad Request. Invalid input.
+        '403':
+          description: Forbidden. Only admins are allowed.
+  /production_tags/report_canceled:
+    post:
+      summary: Report canceled tags
+      security:
+        - Authorization: []
+      tags:
+        - production_tags
+      operationId: reportCanceledProductionTags
+      description: Updates the status of specified production tags to 'canceled'. Requires admin privileges.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of tag serials to cancel.
+              required:
+                - tags
+      responses:
+        '200':
+          description: Tags updated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message.
+        '400':
+          description: Bad Request. Invalid input.
+        '403':
+          description: Forbidden. Only admins are allowed.
   /roles:
     get:
       summary: List
@@ -9973,9 +10695,9 @@ components:
           type: string
         isLocationEnabled:
           type: boolean
-        shipping:
+        isShipping:
           type: boolean
-        billing:
+        isBilling:
           type: boolean
         country:
           type: string
@@ -10440,6 +11162,9 @@ components:
         ownerId:
           type: string
           pattern: '[a-fA-F0-9]{24}'
+        pairedBy:
+          type: string
+          pattern: '[a-fA-F0-9]{24}'
         type:
           type: string
           enum:
@@ -10468,6 +11193,14 @@ components:
         refillCounter:
           type: integer
           minimum: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        wineBatch:
+          type: string
     RoleBlock:
       type: object
       required:
