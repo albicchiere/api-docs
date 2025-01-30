@@ -3183,6 +3183,100 @@ paths:
           $ref: '#/paths/~1users/get/responses/403'
         '500':
           $ref: '#/paths/~1users/get/responses/500'
+    post:
+      summary: Create User Vintage
+      security:
+        - Authorization: []
+      tags:
+        - user_vintages
+      operationId: createUserVintage
+      description: Create a new user vintage
+      parameters:
+        - in: header
+          name: albi-current-company
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+        - in: header
+          name: albi-current-location
+          schema:
+            type: string
+            pattern: '[a-fA-F0-9]{24}'
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - winery
+                - year
+                - wineColor
+                - temperature
+              properties:
+                name:
+                  type: string
+                  description: Name of the wine
+                winery:
+                  type: string
+                  description: Name of the winery
+                year:
+                  type: integer
+                  description: Vintage year
+                wineColor:
+                  type: string
+                  enum:
+                    - red
+                    - white
+                    - rose
+                  description: Color of the wine
+                temperature:
+                  type: integer
+                  description: Serving temperature
+                region:
+                  type: string
+                  description: Wine region
+                grapes:
+                  type: array
+                  items:
+                    type: string
+                  description: List of grape varieties
+                alcohol:
+                  type: number
+                  description: Alcohol percentage
+                wineryId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                  description: Optional reference to a winery
+                wineId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                  description: Optional reference to a wine
+                vintageId:
+                  type: string
+                  pattern: '[a-fA-F0-9]{24}'
+                  description: Optional reference to a vintage
+      responses:
+        '201':
+          description: User vintage created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_vintage:
+                    $ref: '#/components/schemas/UserVintage'
+        '400':
+          $ref: '#/paths/~1roles/post/responses/400'
+        '401':
+          $ref: '#/paths/~1users/get/responses/401'
+        '403':
+          $ref: '#/paths/~1users/get/responses/403'
+        '500':
+          $ref: '#/paths/~1users/get/responses/500'
   '/wine/user_vintages/{userVintageId}':
     get:
       summary: Detail
@@ -9718,6 +9812,24 @@ paths:
       description: Enables a wine list by setting its isActive flag to true
       operationId: enableWineList
       parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
         - name: wineListId
           in: path
           required: true
@@ -9760,6 +9872,24 @@ paths:
       description: Disables a wine list by setting its isActive flag to false
       operationId: disableWineList
       parameters:
+        - name: albi-current-company
+          in: header
+          description: Current company ID
+          required: true
+          schema:
+            type: string
+        - name: albi-current-location
+          in: header
+          description: Current location ID
+          required: true
+          schema:
+            type: string
+        - name: albi-user-coordinates
+          in: header
+          description: 'User coordinates in format "lat,lon"'
+          required: false
+          schema:
+            type: string
         - name: wineListId
           in: path
           required: true
@@ -9795,7 +9925,7 @@ paths:
       security:
         - Authorization: []
   /winelists/disable_all:
-    patch:
+    post:
       tags:
         - winelists
       summary: Disable all wine lists
