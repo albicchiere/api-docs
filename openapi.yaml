@@ -11,7 +11,7 @@ info:
 servers:
   - url: 'https://api-staging.albicchiere.com'
   - url: 'https://api-dev.albicchiere.com'
-  - url: 'https://api-beta.albicchiere.com'
+  - url: 'https://api.albicchiere.com'
 paths:
   /companies:
     get:
